@@ -1,0 +1,257 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Solofachas</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Figtree:wght@400;500;600&display=swap">
+<style>
+/* Layout: vitrina oscura de joyería — encabezado con marca, fila de categorías fija, grilla de fotos grandes */
+:root{
+  --ink:#070b1a;        /* fondo, azul casi negro */
+  --panel:#0f1630;      /* tarjetas */
+  --line:#223063;       /* bordes */
+  --cobalt:#2f6bff;     /* acento de marca */
+  --ice:#9cc0ff;        /* acento claro */
+  --silver:#e9edf7;     /* texto */
+  --muted:#8e9ac0;      /* texto secundario */
+  --display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--ink);color:var(--silver);font-family:var(--body);font-size:16px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ink)}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+header{padding-block:40px 28px;position:relative;overflow:hidden}
+header::after{content:"";position:absolute;right:-120px;top:-140px;width:420px;height:420px;border-radius:50%;
+  background:repeating-radial-gradient(circle at center,transparent 0 18px,color-mix(in srgb,var(--cobalt) 22%,transparent) 18px 20px);
+  pointer-events:none;opacity:.7}
+.brand{display:flex;flex-direction:column;gap:14px;position:relative;z-index:1}
+.eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ice);font-weight:600}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(40px,9vw,88px);line-height:.95;margin:0;letter-spacing:-.02em;text-wrap:balance}
+h1 span{color:var(--cobalt)}
+.tag{font-size:18px;color:var(--muted);max-width:34ch;margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.chip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:14px;color:var(--silver);background:color-mix(in srgb,var(--panel) 70%,transparent)}
+.ig{background:var(--cobalt);border-color:var(--cobalt);color:#fff;font-weight:600;text-decoration:none}
+.ig:hover,.ig:focus-visible{background:#4a80ff}
+
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--ink) 92%,transparent);backdrop-filter:blur(8px);border-block:1px solid var(--line)}
+.filters{display:flex;gap:8px;overflow-x:auto;padding-block:12px;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.filters button{flex:none;font:600 14px var(--body);color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--silver);color:var(--ink);border-color:var(--silver)}
+.filters button:focus-visible,.card button:focus-visible,a:focus-visible{outline:2px solid var(--ice);outline-offset:2px}
+
+main{padding-block:28px 56px;display:flex;flex-direction:column;gap:48px}
+section{display:flex;flex-direction:column;gap:18px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding-bottom:10px}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(22px,4vw,30px);margin:0;letter-spacing:-.01em}
+.count{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.grid{columns:3 280px;column-gap:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;break-inside:avoid;margin-bottom:18px}
+.card button.photo{all:unset;cursor:zoom-in;display:block;max-width:100%;background:#000;overflow:hidden}
+.card img{width:100%;height:auto;display:block;transition:transform .4s ease}
+.card button.photo:hover img{transform:scale(1.04)}
+.info{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.info h3{margin:0;font-size:17px;font-weight:600}
+.info p{margin:0;color:var(--muted);font-size:14px;flex:1}
+.info ul{margin:4px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:3px;font-size:13.5px;color:var(--silver)}
+.info li{padding-left:16px;position:relative}
+.info li::before{content:"";position:absolute;left:2px;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--cobalt)}
+.price{font-size:17px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px}
+.price{font-weight:600;color:var(--ice);font-size:15px;font-variant-numeric:tabular-nums}
+.ask{font-size:14px;font-weight:600;color:var(--silver);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 12px}
+.ask:hover{border-color:var(--cobalt);color:#fff}
+
+footer{border-top:1px solid var(--line);padding-block:28px 40px;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+footer strong{color:var(--silver);font-family:var(--display);font-weight:700}
+
+dialog{border:0;padding:0;background:transparent;max-width:min(96vw,1100px);max-height:92vh}
+dialog::backdrop{background:rgba(3,5,12,.88)}
+dialog img{max-height:86vh;width:auto;max-width:100%;border-radius:10px;display:block}
+dialog p{color:var(--silver);text-align:center;margin:10px 0 0}
+dialog button{position:absolute;top:8px;right:8px;background:var(--panel);color:var(--silver);border:1px solid var(--line);border-radius:999px;width:38px;height:38px;font-size:20px;cursor:pointer}
+@media (prefers-reduced-motion:reduce){.card img{transition:none}}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:20;background:var(--silver);color:var(--ink);font-weight:600;font-size:14px;padding:12px 18px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.4);max-width:calc(100% - 32px);text-align:center}
+.wa{background:#25d366;border-color:#25d366;color:#04140a;font-weight:700;text-decoration:none}
+.wa:hover,.wa:focus-visible{background:#3ee07a}
+button.ask{font-family:var(--body);cursor:pointer}
+#pick{max-width:min(92vw,380px)}
+.pick-box{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px 20px 16px;display:flex;flex-direction:column;gap:10px;color:var(--silver)}
+.pick-k{margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ice);font-weight:600;text-align:left}
+.pick-box h3{margin:0;font-size:19px;font-weight:600}
+.pick-p{margin:0 0 6px;color:var(--ice);font-weight:600;text-align:left}
+.pick-btn{display:block;text-align:center;padding:13px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none}
+.pick-btn.ig{background:var(--cobalt);color:#fff}
+#pick button.pick-x{position:static;width:auto;height:auto;border:0;background:transparent;color:var(--muted);font:600 14px var(--body);padding:8px;border-radius:8px}
+.ask.want{background:var(--cobalt);border-color:var(--cobalt);color:#fff}
+</style>
+
+<header>
+  <div class="wrap brand">
+    <div class="eyebrow">Accesorios · Catamarca</div>
+    <h1>Solo<span>fachas</span> 🌀</h1>
+    <p class="tag">Hay un estilo para cada uno. Accesorios para hombre y mujer.</p>
+    <div class="meta">
+      <a class="chip wa" href="https://wa.me/5493834024275?text=Hola!%20Quiero%20info%20de%20solofachas%20%F0%9F%8C%80" target="_blank" rel="noopener">Pedí por WhatsApp</a>
+      <a class="chip ig" href="https://ig.me/m/solofachas__" target="_blank" rel="noopener">Pedí por Instagram</a>
+      <span class="chip">@solofachas__</span>
+      <span class="chip">📍 San Fernando del Valle de Catamarca</span>
+    </div>
+  </div>
+</header>
+
+<nav aria-label="Categorías"><div class="wrap filters" id="filters"></div></nav>
+
+<main class="wrap" id="catalogo"></main>
+
+<footer>
+  <div class="wrap">
+    <span><strong>Solofachas</strong> · Accesorios de moda</span>
+    <span>Pedidos por <a class="ask" href="https://wa.me/5493834024275" target="_blank" rel="noopener">WhatsApp</a> o Instagram <a class="ask" href="https://ig.me/m/solofachas__" target="_blank" rel="noopener">@solofachas__</a></span>
+  </div>
+</footer>
+
+<dialog id="pick" aria-labelledby="pt"><div class="pick-box">
+  <p class="pick-k">¿Por dónde querés pedir?</p>
+  <h3 id="pt"></h3><p class="pick-p" id="pp"></p>
+  <a class="pick-btn wa" id="pwa" target="_blank" rel="noopener">WhatsApp</a>
+  <a class="pick-btn ig" id="pig" target="_blank" rel="noopener">Instagram</a>
+  <button type="button" class="pick-x" id="pclose">Cancelar</button>
+</div></dialog>
+<div class="toast" id="toast" role="status" hidden></div>
+<dialog id="zoom"><button type="button" aria-label="Cerrar" id="close">×</button><img id="zimg" alt=""><p id="zcap"></p></dialog>
+
+<script>
+const IG="https://ig.me/m/solofachas__";
+const WA="https://wa.me/5493834024275";
+const waLink=it=>WA+"?text="+encodeURIComponent(`Hola! Quiero: ${it.t} (${it.p}) 🌀`);
+const CROPPED=new Set(["58319.jpg","58322.jpg","58324.jpg","58325.jpg","58422.jpg","58507.jpg","58510.jpg","58511.jpg","58412.jpg","58411.jpg","58383.jpg","58320.jpg","58381.jpg","58329.jpg","58330.jpg","58483.jpg","58475.jpg","58493.jpg","58494.jpg"]);
+const src=f=>(CROPPED.has(f)?"img2/":"img/")+f;
+const CATS=[
+ {id:"relojes",name:"Relojes",items:[
+  {img:"set-rosa.jpg",t:"Set reloj + pulsera rosa",p:"$15.000",d:"Reloj dorado con brillitos y pulsera a juego con piedras rosas. Vienen juntos.",tall:1,
+   f:["Malla dorada con piedras rosas","Bisel con strass","Ideal para regalar"]},
+  {img:"reloj-verde.jpg",t:"Reloj plateado esfera verde",p:"$20.000",d:"Verde brillante con malla metálica. Distinto y con mucha presencia.",tall:1,
+   f:["Malla metálica plateada","Esfera verde con reflejo","Funciona a pila"]},
+  {img:"reloj-rosa.jpg",t:"Reloj cuadrado rosa",p:"$15.000",d:"Esfera rosa con malla plateada. Moderno y delicado.",tall:1,
+   f:["Caja cuadrada","Malla metálica plateada","Funciona a pila"]},
+  {img:"relojes-tela.jpg",t:"Relojes estilo militar",p:"$10.000",d:"Malla de tela resistente con caja al tono. Cuatro colores: verde, negro, azul y marrón.",tall:1,
+   f:["Malla de tela (nylon) con hebilla metálica","Caja de 3 subesferas estilo cronógrafo","Agujas y marcadores claros, fáciles de leer","Funcionan a pila"]},
+  {img:"relojes-negros.jpg",t:"Relojes negros clásicos",p:"$10.000",d:"Malla negra texturizada. Tres modelos: números romanos, números grandes y total black.",tall:1,
+   f:["Malla de silicona con textura trenzada","Caja con borde plateado","Estilo cronógrafo de 3 subesferas","Funcionan a pila"]}
+ ]},
+ {id:"billeteras",name:"Billeteras",items:[
+  {img:"bill-dolar.jpg",t:"Billetera Dólar",p:"$12.500",d:"Billete de 100 dólares en relieve, estilo vintage.",tall:1,
+   f:["Cuero sintético (PU)","Cierre alrededor","Tarjetero y lugar para efectivo"]},
+  {img:"bill-spider.jpg",t:"Billetera Spider",p:"$12.500",d:"Negra con araña grabada y detalle rojo.",tall:1,
+   f:["Símil cuero","Solapa con broche","Tarjetero y lugar para billetes"]},
+  {img:"bill-attitude.jpg",t:"Billetera Attitude",p:"$12.500",d:"Gris con letras estilo graffiti y dados.",tall:1,
+   f:["Cuero sintético (PU)","Monedero con cierre","Tarjetero y lugar para billetes"]},
+  {img:"bill-star.jpg",t:"Billetera Star",p:"$12.500",d:"Marrón con estrella grabada y costuras decorativas.",
+   f:["Cuero sintético texturizado","Plaquita metálica con piedra","Tarjetero y lugar para billetes"]}
+ ]},
+ {id:"lentes",name:"Lentes",items:[
+  {img:"lentes-amarillo.jpg",t:"Lentes rectangulares amarillos",p:"$10.000",d:"Marco dorado fino con lente amarillo. Estilo retro.",
+   f:["Marco metálico dorado","Lente de color","Liviano"]},
+  {img:"lentes-rojo.jpg",t:"Lentes rectangulares rojos",p:"$10.000",d:"Marco dorado fino con lente rojo. Estilo retro.",
+   f:["Marco metálico dorado","Lente de color","Liviano"]},
+  {img:"lentes.jpg",t:"Lentes de sol envolventes",p:"$10.000",d:"Plateados mate, diseño deportivo curvo estilo Y2K. Unidad única.",
+   f:["Filtro categoría 3: para sol fuerte","Lente oscuro gris","Marco plateado mate, liviano","Marcado CE de conformidad"]}
+ ]},
+ {id:"anillos",name:"Anillos",note:"$4.000 cada uno",items:[
+  {img:"58319.jpg",t:"Anillos con cristales rosa",p:"$4.000 c/u",d:"Corazones, moños y mariposa con piedras rosa.",f:["La mayoría abiertos y ajustables","Piedras facetadas rosa","Ideal para regalar"]},
+  {img:"58325.jpg",t:"Anillos plateados con detalle",p:"$4.000 c/u",d:"Rosa roja, águila, corazón «Love», alas y búho de ojos celestes.",f:["Acabado plateado envejecido","Diseños en relieve","Varios abiertos y ajustables"]},
+  {img:"58322.jpg",t:"Anillos rockeros",p:"$4.000 c/u",d:"Telaraña, araña, ataúd, esqueleto y carta.",f:["Acabado plateado envejecido","Diseños con mucho relieve","Para hombre y mujer"]},
+  {img:"58324.jpg",t:"Anillos plateados urbanos",p:"$4.000 c/u",d:"Cadena, cinturón con hebilla, hongo, espiral y más.",f:["Acabado plateado","Cerrados y abiertos","Combinan bien de a varios"]},
+  {img:"58422.jpg",t:"Anillos dorados",p:"$4.000 c/u",d:"Soles, mariposa, ondas y modelos minimalistas.",f:["Baño dorado","Abiertos y ajustables","Para usar solos o combinados"]}
+ ]},
+ {id:"pulseras",name:"Pulseras",items:[
+  {img:"pulseras-cristal.jpg",t:"Pulseras de cristal",p:"$6.000 c/u",d:"Rosa con dije de hojitas o celeste con florcita.",tall:1,
+   f:["Cuentas de cristal","Elásticas, fáciles de poner","Dijes colgantes"]},
+  {img:"pulseras-perlas.jpg",t:"Pulseras de perlas y cadena",p:"$6.000 c/u",d:"Perlas con broche T, perlas con dijes, eslabones grandes y tipo serpiente.",tall:1,
+   f:["Baño dorado","Perlas sintéticas","Lindas para usar varias juntas"]},
+  {img:"58483.jpg",t:"Pulseras doradas",p:"$6.000 c/u",d:"Rígidas: lisas, trenzadas, con nudo y con piedra.",f:["Baño dorado","Abiertas, fáciles de poner","Lindas para usar varias juntas"]},
+  {img:"58475.jpg",t:"Pulseras plateadas",p:"$6.000 c/u",d:"Rígidas abiertas, una con detalle de cristales.",f:["Acabado plateado","Abiertas, se adaptan a la muñeca"]},
+  {img:"58493.jpg",t:"Pulseras de cadena doradas",p:"$6.000 c/u",d:"Finitas, con perlitas y bolitas.",tall:1,f:["Baño dorado","Cadena de extensión para ajustar el largo","Cierre mosquetón"]},
+  {img:"58494.jpg",t:"Pulseras de cadena plateadas",p:"$6.000 c/u",d:"Eslabones de distintos grosores.",tall:1,f:["Acabado plateado","Cierre mosquetón","Estilo urbano, para hombre y mujer"]}
+ ]},
+ {id:"collares",name:"Collares",items:[
+  {img:"collar-celta.jpg",t:"Collar nudo celta",p:"$8.000",d:"Cadena plateada con dije calado, piedrita verde y gota de cristal.",tall:1,
+   f:["Acabado plateado","Piedrita verde al centro","Gota de cristal colgante"]},
+  {img:"58507.jpg",t:"Collares dorados con dije",p:"$8.000 c/u",d:"Aros entrelazados y mariposa con brillitos.",tall:1,f:["Cadena fina con baño dorado","Cadena de extensión para ajustar el largo","Cierre mosquetón"]},
+  {img:"58510.jpg",t:"Collares dorados minimalistas",p:"$8.000 c/u",d:"Dije de estrella y barrita vertical.",tall:1,f:["Cadena fina con baño dorado","Largo ajustable","Cierre mosquetón"]},
+  {img:"58511.jpg",t:"Collar de perlas",p:"$8.000",d:"Cadena dorada con perlas intercaladas.",tall:1,f:["Perlas sintéticas","Largo ajustable","Cierre mosquetón"]}
+ ]},
+ {id:"gorras",name:"Gorras y gorros",items:[
+  {img:"58381.jpg",t:"Gorra negra NY",p:"$15.000",d:"Bordado blanco al frente.",tall:1,f:["Bordado en relieve","Visera curva","Regulable atrás"]},
+  {img:"58378.jpg",t:"Gorra negra bordada",p:"$15.000",d:"Bordado blanco al frente y parche lateral.",tall:1,f:["Bordado en relieve","Visera curva","Regulable atrás"]},
+  {img:"58329.jpg",t:"Gorro de lana negro",p:"$10.000",d:"Bordado NY y parche lateral.",tall:1,f:["Tejido elástico, abriga","Con doblez","Talle único"]},
+  {img:"58330.jpg",t:"Gorro de lana rojo",p:"$10.000",d:"Bordado NY en blanco y parche lateral.",tall:1,f:["Tejido elástico, abriga","Con doblez","Talle único"]}
+ ]},
+ {id:"llaveros",name:"Llaveros",items:[
+  {img:"58412.jpg",t:"Llaveros navaja",p:"$4.000 c/u",d:"Tornasolados y dorado. Tres modelos.",tall:1,f:["Metálicos, decorativos (sin filo)","Argolla grande y cadenita"]},
+  {img:"58411.jpg",t:"Llaveros carta y estrellas",p:"$4.000 c/u",d:"As de picas con dado, y estrellas plateadas.",tall:1,f:["Mosquetón o argolla","Para llaves, mochila o cartera"]},
+  {img:"58383.jpg",t:"Llavero tótem dorado",p:"$4.000",d:"Tótem dorado con ojos verdes y cadenita.",tall:1,f:["Metálico dorado","Argolla y cadenita"]}
+ ]},
+ {id:"aros",name:"Aros",note:"$2.000 el par",items:[
+  {img:"aros-semanales.jpg",t:"Aros semanales",p:"$2.000 el par",d:"Siete pares, uno para cada día: lunitas rosas, mariposas, copos, bolitas, hojitas, torre Eiffel y argollitas.",
+   f:["Abridores chiquitos","Plateados y dorados","Elegí los pares que quieras"]},
+  {img:"aros-set6.jpg",t:"Aros set de 6",p:"$2.000 el par",d:"Bolitas doradas, brillantes, florcitas, argollitas, trébol rojo y perlas colgantes.",tall:1,
+   f:["Baño dorado","Con brillos y perlas","Elegí los pares que quieras"]}
+ ]},
+ {id:"cintos",name:"Cintos",items:[
+  {img:"58320.jpg",t:"Cinto Hello Kitty",p:"$10.000",d:"Negro con hebilla plateada de Hello Kitty y moño de brillos.",f:["Símil cuero negro","Hebilla grande de metal","Moño con strass rosa"]}
+ ]}
+];
+const filters=document.getElementById("filters"),main=document.getElementById("catalogo");
+function btn(id,label){const b=document.createElement("button");b.type="button";b.id="f-"+id;b.textContent=label;b.dataset.cat=id;b.setAttribute("aria-pressed","false");filters.append(b);return b}
+btn("todo","Todo").setAttribute("aria-pressed","true");
+CATS.forEach(c=>{
+  btn(c.id,c.name);
+  const s=document.createElement("section");s.dataset.cat=c.id;s.id=c.id;
+  s.innerHTML=`<div class="sec-head"><h2>${c.name}</h2><span class="count">${c.items.length} ${c.items.length===1?"modelo":"modelos"}</span></div><div class="grid"></div>`;
+  const g=s.querySelector(".grid");
+  c.items.forEach(it=>{
+    const a=document.createElement("article");a.className="card"+(it.tall?" tall":"");
+    a.innerHTML=`<button class="photo" type="button" aria-label="Ver foto grande: ${it.t}"><img src="${src(it.img)}" alt="${it.t}" loading="lazy"></button>
+    <div class="info"><h3>${it.t}</h3><p>${it.d}</p>${it.f?`<ul>${it.f.map(x=>`<li>${x}</li>`).join("")}</ul>`:""}<div class="row"><span class="price">${it.p||"Consultá precio"}</span><button type="button" class="ask want">Lo quiero</button></div></div>`;
+    a.querySelector(".photo").addEventListener("click",()=>openZoom(it));
+    a.querySelector(".want").addEventListener("click",()=>elegir(it));
+    g.append(a);
+  });
+  main.append(s);
+});
+filters.addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;
+  filters.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));
+  main.querySelectorAll("section").forEach(s=>s.hidden=!(b.dataset.cat==="todo"||s.dataset.cat===b.dataset.cat));
+});
+const toast=document.getElementById("toast");let tt;
+function showToast(m){toast.textContent=m;toast.hidden=false;clearTimeout(tt);tt=setTimeout(()=>toast.hidden=true,5000)}
+function pedir(it){
+  const msg=`Hola! Quiero: ${it.t} (${it.p})`;
+  try{navigator.clipboard.writeText(msg).then(()=>showToast("Mensaje copiado. Pegalo en el chat de Instagram 🌀"),()=>showToast("Escribí en el chat: "+msg))}
+  catch(e){showToast("Escribí en el chat: "+msg)}
+}
+const pick=document.getElementById("pick");
+function elegir(it){
+  document.getElementById("pt").textContent=it.t;
+  document.getElementById("pp").textContent=it.p;
+  document.getElementById("pwa").href=waLink(it);
+  const ig=document.getElementById("pig");ig.href=IG;ig.onclick=()=>{pedir(it);pick.close()};
+  document.getElementById("pwa").onclick=()=>pick.close();
+  pick.showModal();
+}
+document.getElementById("pclose").onclick=()=>pick.close();
+pick.addEventListener("click",e=>{if(e.target===pick)pick.close()});
+const dlg=document.getElementById("zoom");
+function openZoom(it){document.getElementById("zimg").src=src(it.img);document.getElementById("zimg").alt=it.t;document.getElementById("zcap").textContent=it.t;dlg.showModal()}
+document.getElementById("close").onclick=()=>dlg.close();
+dlg.addEventListener("click",e=>{if(e.target===dlg)dlg.close()});
+</script>
+
+</body></html>
