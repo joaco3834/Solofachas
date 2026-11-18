@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 
 const steps = [
   { n: "01", t: "Elegí tu facha", d: "Mirá los destacados o el catálogo completo, con fotos reales de cada modelo." },
-  { n: "02", t: "Tocá “Lo quiero”", d: "Se abre WhatsApp con el producto y el precio ya escritos. También podés pedir por Instagram." },
-  { n: "03", t: "Coordinamos", d: "Por chat te confirmamos stock y arreglamos el pago y la entrega en Catamarca." },
+  { n: "02", t: "Armá tu pedido", d: "Agregá todo lo que quieras y mandalo junto por WhatsApp, con modelos y total ya escritos. También por Instagram." },
+  { n: "03", t: "Pagás y listo", d: "Te confirmamos el stock, pagás por transferencia y coordinamos la entrega en Catamarca." },
 ];
 
 export default function HowTo() {

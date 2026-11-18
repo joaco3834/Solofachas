@@ -81,13 +81,8 @@ a, button { -webkit-tap-highlight-color: transparent; }
   html { scroll-behavior: smooth; }
 }
 
-/* Brillitos del modo liviano */
-.twinkle {
-  opacity: 0;
-  box-shadow: 0 0 8px 1px color-mix(in srgb, var(--color-ice) 70%, transparent);
-  animation: twinkle 3s ease-in-out infinite;
-}
-@keyframes twinkle {
-  0%, 100% { opacity: 0; transform: scale(0.4); }
-  50% { opacity: 0.9; transform: scale(1); }
-}
+
+/* Collage: cada foto flota suave */
+.float-y { animation: floaty 6s ease-in-out infinite; }
+@keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+@media (prefers-reduced-motion: reduce) { .float-y { animation: none; } }

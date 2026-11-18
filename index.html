@@ -383,6 +383,8 @@ document.querySelectorAll(".copy").forEach(b=>b.addEventListener("click",()=>{
 }));
 window.addEventListener("storage",e=>{if(e.key===KEY){try{cart=JSON.parse(e.newValue||"[]")}catch(_){cart=[]}renderCart()}});
 renderCart();
+// viene de la landing con "Tu pedido": abrir el pedido
+if(location.hash==="#pedido"&&cart.length){cartDlg.showModal();history.replaceState(null,"",location.pathname)}
 const dlg=document.getElementById("zoom");
 function openZoom(it){document.getElementById("zimg").src=src(it.img);document.getElementById("zimg").alt=it.t;document.getElementById("zcap").textContent=it.t;dlg.showModal()}
 document.getElementById("close").onclick=()=>dlg.close();

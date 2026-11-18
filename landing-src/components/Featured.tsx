@@ -1,7 +1,8 @@
 "use client";
 
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { BASE, CATALOGO, PRODUCTS, waPedido, type Product } from "@/lib/data";
+import { BASE, CATALOGO, PRODUCTS, type Product } from "@/lib/data";
+import { addToCart } from "@/lib/cart";
 import { ArrowIcon } from "./ui/Magnetic";
 
 function Card({ p, i }: { p: Product; i: number }) {
@@ -62,15 +63,23 @@ function Card({ p, i }: { p: Product; i: number }) {
           <p className="mt-1 line-clamp-2 text-[13px] text-muted">{p.desc}</p>
           <div className="mt-3 flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between">
             <span className="font-display text-[15px] font-bold text-ice md:text-lg">{p.price}</span>
-            <a
-              href={waPedido(p.name, p.price)}
-              target="_blank"
-              rel="noopener"
-              aria-label={`Lo quiero: ${p.name}`}
-              className="flex items-center gap-1.5 whitespace-nowrap rounded-full bg-silver px-3 py-1.5 text-[13px] font-bold text-ink transition-all duration-300 hover:gap-2.5 hover:bg-white active:scale-95"
-            >
-              Lo quiero <ArrowIcon />
-            </a>
+            {p.catId ? (
+              <a
+                href={`${CATALOGO}#${p.catId}`}
+                className="flex items-center gap-1.5 whitespace-nowrap rounded-full border border-line px-3 py-1.5 text-[13px] font-bold text-silver transition-all duration-300 hover:gap-2.5 hover:border-ice"
+              >
+                Elegir modelo <ArrowIcon />
+              </a>
+            ) : (
+              <button
+                type="button"
+                onClick={() => addToCart({ t: p.name, p: p.price, img: p.catImg })}
+                aria-label={`Agregar al pedido: ${p.name}`}
+                className="flex items-center gap-1.5 whitespace-nowrap rounded-full bg-silver px-3 py-1.5 text-[13px] font-bold text-ink transition-all duration-300 hover:gap-2.5 hover:bg-white active:scale-95"
+              >
+                Agregar <span aria-hidden="true">+</span>
+              </button>
+            )}
           </div>
         </div>
       </motion.div>
@@ -94,7 +103,7 @@ export default function Featured() {
           <span className="text-cobalt">facha.</span>
         </motion.h2>
         <div className="max-w-sm">
-          <p className="text-lg text-muted">Una selección del catálogo. Tocá “Lo quiero” y te llega el mensaje armado por WhatsApp.</p>
+          <p className="text-lg text-muted">Una selección del catálogo. Agregá lo que te guste y mandá todo el pedido junto por WhatsApp.</p>
           <a href={CATALOGO} className="mt-4 inline-flex items-center gap-2 font-semibold text-ice hover:underline">
             Ver catálogo completo <ArrowIcon />
           </a>

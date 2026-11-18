@@ -5,7 +5,7 @@ import { useState } from "react";
 import { CATALOGO, waLink } from "@/lib/data";
 
 const links = [
-  { href: "#probalo", label: "Probalo" },
+  { href: "#relojes", label: "Relojes" },
   { href: "#destacados", label: "Destacados" },
   { href: "#como-comprar", label: "Cómo comprar" },
   { href: CATALOGO, label: "Catálogo" },

@@ -1,9 +1,10 @@
 "use client";
 
-import { useMedia } from "@/lib/hooks";
 import Cursor from "./ui/Cursor";
 import Header from "./Header";
-import Experience from "./Experience";
+import Hero from "./Hero";
+import WatchPick from "./WatchPick";
+import CartButton from "./CartButton";
 import Marquee from "./Marquee";
 import Manifesto from "./Manifesto";
 import Featured from "./Featured";
@@ -13,22 +14,22 @@ import Footer from "./Footer";
 import SmoothScroll from "./SmoothScroll";
 
 export default function Landing() {
-  const isMobile = useMedia("(max-width: 767px)");
-  const reduced = useMedia("(prefers-reduced-motion: reduce)");
   return (
     <>
       <SmoothScroll />
       <Cursor />
       <Header />
       <main className="overflow-x-clip">
-        <Experience isMobile={isMobile} reduced={reduced} />
+        <Hero />
         <Marquee />
         <Manifesto />
+        <WatchPick />
         <Featured />
         <HowTo />
         <FinalCta />
       </main>
       <Footer />
+      <CartButton />
     </>
   );
 }
