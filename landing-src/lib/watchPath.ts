@@ -1,4 +1,5 @@
 // Recorrido del reloj según el scroll (lo usan el 3D y el modo liviano)
+import { sceneState } from "./sceneState";
 export type Key = { p: [number, number, number]; r: [number, number, number]; s: number };
 
 // 0 = portada · 1 = "Se nota de lejos" · 2 = "La malla" · 3 = "Probalo"
@@ -31,3 +32,12 @@ export function sample(keys: Key[], progress: number): Key {
   };
 }
 
+
+// En el celu, el último punto del recorrido se ajusta al hueco libre de "Elegí tu esfera"
+export function keysFor(isMobile: boolean): Key[] {
+  if (!isMobile) return DESKTOP;
+  const slot = sceneState.slot;
+  if (!slot) return MOBILE;
+  const last = MOBILE[MOBILE.length - 1];
+  return [...MOBILE.slice(0, -1), { p: [0, slot.y, 0], r: last.r, s: slot.s }];
+}

@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef } from "react";
+import { sceneState } from "@/lib/sceneState";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Magnetic from "./ui/Magnetic";
@@ -16,6 +17,8 @@ function Chapter({
   title,
   side,
   children,
+  fill,
+  secRef,
 }: {
   id: string;
   n: string;
@@ -23,9 +26,11 @@ function Chapter({
   title: React.ReactNode;
   side: "left" | "right";
   children: React.ReactNode;
+  fill?: boolean;
+  secRef?: React.Ref<HTMLElement>;
 }) {
   return (
-    <section id={id} className="chapter relative z-10 flex min-h-[100svh] items-start px-4 pt-28 md:items-center md:px-10 md:pt-0">
+    <section ref={secRef} id={id} className="chapter relative z-10 flex min-h-[100svh] items-start px-4 pb-6 pt-28 md:items-center md:px-10 md:pb-0 md:pt-0">
       <span
         aria-hidden="true"
         className={`text-outline pointer-events-none absolute top-1/2 hidden -translate-y-1/2 font-display text-[28vw] font-extrabold leading-none opacity-[0.07] md:block ${
@@ -34,7 +39,11 @@ function Chapter({
       >
         {n}
       </span>
-      <div className={`relative w-full md:w-[44%] ${side === "right" ? "md:ml-auto" : ""}`}>
+      <div
+        className={`relative w-full md:w-[44%] ${side === "right" ? "md:ml-auto" : ""} ${
+          fill ? "flex min-h-[calc(100svh-8.5rem)] flex-col md:block md:min-h-0" : ""
+        }`}
+      >
         <p className="rv mb-4 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-ice">
           <span className="font-display text-cobalt">{n}</span>
           <span className="h-px w-10 bg-line" />
@@ -50,6 +59,38 @@ function Chapter({
 export default function Story({ variant, setVariant }: Props) {
   const root = useRef<HTMLDivElement>(null);
   const v = VARIANTS.find((x) => x.id === variant)!;
+  const demoSec = useRef<HTMLElement>(null);
+  const slotEl = useRef<HTMLDivElement>(null);
+
+  // en el celu, ubica el reloj en el hueco entre el título y la tarjeta
+  useEffect(() => {
+    const compute = () => {
+      const sec = demoSec.current;
+      const slot = slotEl.current;
+      if (!sec || !slot || !window.matchMedia("(max-width: 767px)").matches) {
+        sceneState.slot = null;
+        return;
+      }
+      const H = window.innerHeight;
+      const unit = H / (2 * Math.tan((16 * Math.PI) / 180) * 6);
+      const secRect = sec.getBoundingClientRect();
+      const r = slot.getBoundingClientRect();
+      const offset = Math.max(0, sec.offsetHeight - H); // cuánto queda arriba de la pantalla al final del recorrido
+      const cy = r.top - secRect.top - offset + r.height / 2;
+      const radiusPx = Math.min(r.height * 0.46, window.innerWidth * 0.42);
+      sceneState.slot = { y: (H / 2 - cy) / unit, s: Math.max(0.28, radiusPx / unit / 1.15) };
+    };
+    compute();
+    const ro = new ResizeObserver(compute);
+    if (demoSec.current) ro.observe(demoSec.current);
+    window.addEventListener("resize", compute);
+    document.fonts?.ready.then(compute);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", compute);
+      sceneState.slot = null;
+    };
+  }, []);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -118,6 +159,8 @@ export default function Story({ variant, setVariant }: Props) {
         n="03"
         kicker="Probalo"
         side="right"
+        fill
+        secRef={demoSec}
         title={
           <>
             Elegí tu
@@ -126,7 +169,8 @@ export default function Story({ variant, setVariant }: Props) {
           </>
         }
       >
-        <div className="rv mt-7 rounded-3xl border border-line bg-panel/[0.93] p-5 md:p-6">
+        <div ref={slotEl} aria-hidden="true" className="min-h-[170px] flex-1 md:hidden" />
+        <div className="rv rounded-3xl border border-line bg-panel/[0.93] p-5 md:mt-7 md:p-6">
           <div role="radiogroup" aria-label="Color del reloj" className="flex gap-3">
             {VARIANTS.map((x) => {
               const on = x.id === variant;

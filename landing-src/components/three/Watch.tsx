@@ -8,7 +8,7 @@ import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeom
 import { sceneState } from "@/lib/sceneState";
 import { VARIANTS, type Variant, type VariantId } from "@/lib/data";
 import Haze from "./Haze";
-import { DESKTOP, MOBILE, sample } from "@/lib/watchPath";
+import { keysFor, sample } from "@/lib/watchPath";
 
 /* ---------- Esfera dibujada en canvas (efecto solar, índices y logo) ---------- */
 function makeDial(v: Variant) {
@@ -237,7 +237,7 @@ export default function Watch({ variantId, isMobile, reduced }: Props) {
     const d = Math.min(delta, 0.1);
     const t = state.clock.elapsedTime;
     const { damp } = THREE.MathUtils;
-    const k = sample(isMobile ? MOBILE : DESKTOP, sceneState.progress);
+    const k = sample(keysFor(isMobile), sceneState.progress);
     const px = sceneState.pointerX;
     const py = sceneState.pointerY;
 
