@@ -1,4 +1,4 @@
-:HL["/Solofachas/landing/_next/static/chunks/34wlnh19wifjf.css","style"]
+:HL["/Solofachas/landing/_next/static/chunks/1udiv5yegv8qp.css","style"]
 :HC["/",""]
 1:[["children",{"s":"__PAGE__","h":160}]]
-0:{"b":"JagzITaY1ExjTk6pmjiL4","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"tb26iahzZptzoqKavzXNV","t":{"t":{"s":"","h":80,"c":"$Q1"}}}

@@ -60,7 +60,7 @@ export default function Marquee() {
   }, []);
 
   return (
-    <section ref={ref} aria-label="Categorías" className="relative z-10 -rotate-2 overflow-hidden border-y border-line bg-ink/80 py-6 backdrop-blur md:py-8">
+    <section ref={ref} aria-label="Categorías" className="relative z-10 -rotate-2 overflow-hidden border-y border-line bg-ink py-6 md:py-8">
       <p className="sr-only">{CATEGORIES.join(", ")}</p>
       <Row cls="mq-a" />
       <div className="mt-2 md:mt-4">

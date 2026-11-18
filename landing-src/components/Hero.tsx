@@ -23,7 +23,7 @@ export default function Hero() {
       <div className="rings pointer-events-none absolute -left-48 -top-20 h-[560px] w-[560px] opacity-70" aria-hidden="true" />
 
       <div className="relative max-w-[min(100%,760px)]">
-        <motion.p {...fade(0)} className="mb-5 inline-flex items-center gap-2 rounded-full border border-line bg-panel/50 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-ice backdrop-blur">
+        <motion.p {...fade(0)} className="mb-5 inline-flex items-center gap-2 rounded-full border border-line bg-panel/80 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-ice">
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-cobalt" />
           Accesorios · Catamarca
         </motion.p>

@@ -30,7 +30,7 @@ export default function Header() {
     >
       <div
         className={`mx-3 mt-3 flex items-center justify-between rounded-full border px-4 py-2.5 transition-[background,border-color,backdrop-filter] duration-500 md:mx-6 md:px-6 ${
-          solid ? "border-line/80 bg-ink/70 backdrop-blur-xl" : "border-transparent bg-transparent"
+          solid ? "border-line/80 bg-ink/90" : "border-transparent bg-transparent"
         }`}
       >
         <a href="#inicio" className="font-display text-[17px] font-extrabold tracking-tight md:text-lg" aria-label="Solofachas, volver al inicio">

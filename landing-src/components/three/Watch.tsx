@@ -190,35 +190,33 @@ export default function Watch({ variantId, isMobile, reduced }: Props) {
 
   const geo = useMemo(
     () => ({
-      center: new RoundedBoxGeometry(0.36, 0.125, 0.09, 3, 0.03),
-      side: new RoundedBoxGeometry(0.24, 0.125, 0.08, 3, 0.03),
+      center: new RoundedBoxGeometry(0.36, 0.125, 0.09, 2, 0.03),
+      side: new RoundedBoxGeometry(0.24, 0.125, 0.08, 2, 0.03),
       stone: new THREE.IcosahedronGeometry(0.036, 0),
-      lug: new RoundedBoxGeometry(0.15, 0.32, 0.2, 3, 0.05),
+      lug: new RoundedBoxGeometry(0.15, 0.32, 0.2, 2, 0.05),
     }),
     [],
   );
 
+  // Materiales livianos: nada de "transmission" (obligaba a dibujar la escena dos veces por cuadro)
   const mats = useMemo(() => {
     const v0 = VARIANTS[0];
     return {
-      metal: new THREE.MeshPhysicalMaterial({ color: v0.caseColor, metalness: 1, roughness: 0.16, clearcoat: 0.35, clearcoatRoughness: 0.15 }),
-      strap: new THREE.MeshPhysicalMaterial({ color: v0.strapColor, metalness: 1, roughness: 0.14, clearcoat: 0.3 }),
-      strapSide: new THREE.MeshPhysicalMaterial({ color: v0.strapColor, metalness: 1, roughness: 0.34 }),
-      hand: new THREE.MeshPhysicalMaterial({ color: v0.handColor, metalness: 0.75, roughness: 0.22, emissive: v0.handColor, emissiveIntensity: 0.18 }),
+      metal: new THREE.MeshStandardMaterial({ color: v0.caseColor, metalness: 1, roughness: 0.16 }),
+      strap: new THREE.MeshStandardMaterial({ color: v0.strapColor, metalness: 1, roughness: 0.14 }),
+      strapSide: new THREE.MeshStandardMaterial({ color: v0.strapColor, metalness: 1, roughness: 0.34 }),
+      hand: new THREE.MeshStandardMaterial({ color: v0.handColor, metalness: 0.75, roughness: 0.22, emissive: v0.handColor, emissiveIntensity: 0.18 }),
       sec: new THREE.MeshStandardMaterial({ color: "#2f6bff", metalness: 0.5, roughness: 0.3, emissive: "#2f6bff", emissiveIntensity: 0.35 }),
-      dial: new THREE.MeshPhysicalMaterial({ color: "#ffffff", roughness: 0.3, metalness: 0.3, clearcoat: 1, clearcoatRoughness: 0.06 }),
-      glass: new THREE.MeshPhysicalMaterial({
+      dial: new THREE.MeshStandardMaterial({ color: "#ffffff", roughness: 0.32, metalness: 0.3 }),
+      // cristal: solo suma los reflejos del estudio encima de la esfera (efecto vidrio sin costo extra)
+      glass: new THREE.MeshStandardMaterial({
         color: "#ffffff",
-        transmission: 1,
-        roughness: 0.02,
-        thickness: 0.22,
-        ior: 1.52,
-        clearcoat: 1,
-        clearcoatRoughness: 0,
-        specularIntensity: 1,
-        envMapIntensity: 1.6,
-        attenuationColor: new THREE.Color("#e4ecff"),
-        attenuationDistance: 2.5,
+        metalness: 1,
+        roughness: 0.04,
+        transparent: true,
+        opacity: 0.55,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
       }),
       stone: new THREE.MeshStandardMaterial({ color: "#fff1f6", metalness: 1, roughness: 0.03, flatShading: true }),
     };
@@ -329,28 +327,28 @@ export default function Watch({ variantId, isMobile, reduced }: Props) {
 
   return (
     <group ref={pos}>
-      <Haze reduced={reduced} />
-      <Sparkles count={isMobile ? 26 : 70} scale={[4.6, 3.6, 3]} size={isMobile ? 2.2 : 3} speed={reduced ? 0 : 0.35} noise={0.6} opacity={0.9} color="#9cc0ff" />
-      <Sparkles count={isMobile ? 12 : 28} scale={[3.6, 3, 2.4]} size={isMobile ? 3 : 4} speed={reduced ? 0 : 0.25} noise={0.4} color="#ffd9a0" />
+      <Haze reduced={reduced} count={isMobile ? 4 : 6} />
+      <Sparkles count={isMobile ? 16 : 40} scale={[4.6, 3.6, 3]} size={isMobile ? 2.2 : 3} speed={reduced ? 0 : 0.35} noise={0.6} opacity={0.9} color="#9cc0ff" />
+      <Sparkles count={isMobile ? 6 : 14} scale={[3.6, 3, 2.4]} size={isMobile ? 3 : 4} speed={reduced ? 0 : 0.25} noise={0.4} color="#ffd9a0" />
 
       <group ref={rot}>
         {/* caja */}
         <mesh material={mats.metal} rotation-x={Math.PI / 2}>
-          <cylinderGeometry args={[1, 1, 0.3, 96]} />
+          <cylinderGeometry args={[1, 1, 0.3, 64]} />
         </mesh>
         <mesh material={mats.metal} position-z={0.15}>
-          <torusGeometry args={[0.97, 0.075, 32, 128]} />
+          <torusGeometry args={[0.97, 0.075, 20, 96]} />
         </mesh>
         <mesh material={mats.metal} position-z={-0.15}>
-          <torusGeometry args={[0.94, 0.06, 24, 96]} />
+          <torusGeometry args={[0.94, 0.06, 12, 64]} />
         </mesh>
         <mesh material={mats.metal} position-z={-0.18} rotation-x={Math.PI / 2}>
-          <cylinderGeometry args={[0.8, 0.86, 0.06, 64]} />
+          <cylinderGeometry args={[0.8, 0.86, 0.06, 48]} />
         </mesh>
 
         {/* esfera */}
         <mesh material={mats.dial} position-z={0.16}>
-          <circleGeometry args={[0.92, 96]} />
+          <circleGeometry args={[0.92, 64]} />
         </mesh>
 
         {/* agujas */}
@@ -377,7 +375,7 @@ export default function Watch({ variantId, isMobile, reduced }: Props) {
 
         {/* cristal abombado con reflejos */}
         <mesh material={mats.glass} position-z={-2.685} rotation-x={Math.PI / 2}>
-          <sphereGeometry args={[3, 96, 24, 0, Math.PI * 2, 0, 0.3116]} />
+          <sphereGeometry args={[3, 64, 12, 0, Math.PI * 2, 0, 0.3116]} />
         </mesh>
 
         {/* corona */}

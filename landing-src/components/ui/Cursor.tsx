@@ -31,11 +31,11 @@ export default function Cursor() {
 
   if (!enabled) return null;
   return (
-    <motion.div aria-hidden="true" style={{ x: sx, y: sy }} className="pointer-events-none fixed left-0 top-0 z-[80] mix-blend-difference">
+    <motion.div aria-hidden="true" style={{ x: sx, y: sy }} className="pointer-events-none fixed left-0 top-0 z-[80]">
       <motion.div
         animate={{ width: hover ? 64 : 12, height: hover ? 64 : 12 }}
         transition={{ type: "spring", stiffness: 300, damping: 22 }}
-        className="-translate-x-1/2 -translate-y-1/2 rounded-full bg-white"
+        className="-translate-x-1/2 -translate-y-1/2 rounded-full border border-ice/70 bg-ice/15"
       />
     </motion.div>
   );

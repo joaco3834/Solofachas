@@ -8,7 +8,7 @@ type Tone = "primary" | "wa" | "ghost" | "light";
 const tones: Record<Tone, string> = {
   primary: "bg-cobalt text-white shadow-[0_10px_40px_-10px_rgba(47,107,255,.8)]",
   wa: "bg-wa text-[#04140a] shadow-[0_10px_40px_-12px_rgba(37,211,102,.7)]",
-  ghost: "border border-line bg-ink/40 text-silver backdrop-blur hover:border-ice",
+  ghost: "border border-line bg-ink/70 text-silver hover:border-ice",
   light: "bg-silver text-ink",
 };
 

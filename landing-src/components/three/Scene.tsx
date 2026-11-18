@@ -38,7 +38,7 @@ export default function Scene({ variantId, isMobile, reduced, active }: Props) {
   const [low, setLow] = useState(false);
   return (
     <Canvas
-      dpr={low ? 1 : [1, isMobile ? 1.5 : 2]}
+      dpr={low ? (isMobile ? 0.85 : 1) : [1, isMobile ? 1.25 : 1.5]}
       frameloop={active ? "always" : "never"}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       camera={{ position: [0, 0, 6], fov: 32 }}
@@ -47,10 +47,10 @@ export default function Scene({ variantId, isMobile, reduced, active }: Props) {
         <img src={`${BASE}/productos/reloj-verde.jpg`} alt="Reloj plateado esfera verde" className="mx-auto mt-[45svh] w-56 rounded-3xl opacity-90" />
       }
     >
-      <PerformanceMonitor onDecline={() => setLow(true)} />
+      <PerformanceMonitor flipflops={1} onDecline={() => setLow(true)} />
       <DynamicLights reduced={reduced} />
       {/* estudio fotográfico armado con paneles de luz: reflejos realistas sin descargar HDRs */}
-      <Environment resolution={256} frames={1}>
+      <Environment resolution={128} frames={1}>
         <Lightformer form="rect" intensity={3.2} position={[0, 4.5, -1]} scale={[10, 2.4, 1]} rotation-x={Math.PI / 2} />
         <Lightformer form="rect" intensity={2.2} position={[-5, 1, 1]} scale={[2.5, 9, 1]} rotation-y={Math.PI / 2} />
         <Lightformer form="rect" intensity={2.8} position={[5, 0.5, 2]} scale={[2.5, 9, 1]} rotation-y={-Math.PI / 2} />

@@ -5,7 +5,7 @@ import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 
 // Niebla de luz: nubecitas suaves que suben detrás del reloj
-export default function Haze({ reduced }: { reduced: boolean }) {
+export default function Haze({ reduced, count }: { reduced: boolean; count: number }) {
   const tex = useMemo(() => {
     const c = document.createElement("canvas");
     c.width = c.height = 128;
@@ -21,16 +21,16 @@ export default function Haze({ reduced }: { reduced: boolean }) {
 
   const puffs = useMemo(
     () =>
-      Array.from({ length: 9 }, (_, i) => ({
+      Array.from({ length: count }, (_, i) => ({
         x: (Math.random() - 0.5) * 2.6,
         z: -0.5 - Math.random() * 1.3,
         phase: Math.random(),
         speed: 0.035 + Math.random() * 0.04,
-        size: 1.6 + Math.random() * 1.8,
+        size: 1.4 + Math.random() * 1.2,
         color: i % 3 === 0 ? "#2f6bff" : "#9cc0ff",
-        op: 0.07 + Math.random() * 0.07,
+        op: 0.09 + Math.random() * 0.07,
       })),
-    [],
+    [count],
   );
 
   const refs = useRef<THREE.Sprite[]>([]);

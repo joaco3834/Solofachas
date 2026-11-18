@@ -106,7 +106,7 @@ export default function Story({ variant, setVariant }: Props) {
         </p>
         <ul className="rv mt-6 flex flex-wrap gap-2 text-sm">
           {["Metálica", "Tela estilo militar", "Silicona trenzada", "Con strass"].map((t) => (
-            <li key={t} className="rounded-full border border-line bg-panel/60 px-3 py-1.5 backdrop-blur">
+            <li key={t} className="rounded-full border border-line bg-panel/85 px-3 py-1.5">
               {t}
             </li>
           ))}
@@ -126,7 +126,7 @@ export default function Story({ variant, setVariant }: Props) {
           </>
         }
       >
-        <div className="rv mt-7 rounded-3xl border border-line bg-panel/70 p-5 backdrop-blur-xl md:p-6">
+        <div className="rv mt-7 rounded-3xl border border-line bg-panel/[0.93] p-5 md:p-6">
           <div role="radiogroup" aria-label="Color del reloj" className="flex gap-3">
             {VARIANTS.map((x) => {
               const on = x.id === variant;
