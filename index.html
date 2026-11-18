@@ -75,21 +75,62 @@ dialog{border:0;padding:0;background:transparent;max-width:min(96vw,1100px);max-
 dialog::backdrop{background:rgba(3,5,12,.88)}
 dialog img{max-height:86vh;width:auto;max-width:100%;border-radius:10px;display:block}
 dialog p{color:var(--silver);text-align:center;margin:10px 0 0}
-dialog button{position:absolute;top:8px;right:8px;background:var(--panel);color:var(--silver);border:1px solid var(--line);border-radius:999px;width:38px;height:38px;font-size:20px;cursor:pointer}
+#zoom>button{position:absolute;top:8px;right:8px;background:var(--panel);color:var(--silver);border:1px solid var(--line);border-radius:999px;width:38px;height:38px;font-size:20px;cursor:pointer}
 @media (prefers-reduced-motion:reduce){.card img{transition:none}}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:20;background:var(--silver);color:var(--ink);font-weight:600;font-size:14px;padding:12px 18px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.4);max-width:calc(100% - 32px);text-align:center}
 .wa{background:#25d366;border-color:#25d366;color:#04140a;font-weight:700;text-decoration:none}
 .wa:hover,.wa:focus-visible{background:#3ee07a}
 button.ask{font-family:var(--body);cursor:pointer}
-#pick{max-width:min(92vw,380px)}
-.pick-box{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px 20px 16px;display:flex;flex-direction:column;gap:10px;color:var(--silver)}
-.pick-k{margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ice);font-weight:600;text-align:left}
-.pick-box h3{margin:0;font-size:19px;font-weight:600}
-.pick-p{margin:0 0 6px;color:var(--ice);font-weight:600;text-align:left}
-.pick-btn{display:block;text-align:center;padding:13px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none}
-.pick-btn.ig{background:var(--cobalt);color:#fff}
-#pick button.pick-x{position:static;width:auto;height:auto;border:0;background:transparent;color:var(--muted);font:600 14px var(--body);padding:8px;border-radius:8px}
 .ask.want{background:var(--cobalt);border-color:var(--cobalt);color:#fff}
+/* Elegir modelo */
+.models{margin-top:10px}
+.models-k{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ice);font-weight:600;margin:0 0 6px}
+.models-o{display:flex;flex-wrap:wrap;gap:6px}
+.models-o button{font:600 13px var(--body);color:var(--silver);background:transparent;border:1px solid var(--line);border-radius:999px;padding:6px 11px;cursor:pointer}
+.models-o button:hover{border-color:var(--ice)}
+.models-o button[aria-checked="true"]{background:var(--silver);border-color:var(--silver);color:var(--ink)}
+.models.need .models-k{color:#ff8a8a}
+.models.need .models-o{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.added{background:#25d366!important;border-color:#25d366!important;color:#04140a!important}
+/* Botón flotante: pedido o WhatsApp */
+.fab{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:15;display:flex;align-items:center;gap:10px;border:0;border-radius:999px;padding:13px 18px;font:700 15px var(--body);cursor:pointer;text-decoration:none;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.fab.cart{background:var(--cobalt);color:#fff}
+.fab.wa{background:#25d366;color:#04140a}
+.fab .n{background:#fff;color:var(--cobalt);border-radius:999px;min-width:24px;height:24px;display:grid;place-items:center;font-size:13px;padding:0 6px}
+.fab.bump{animation:bump .45s}
+@keyframes bump{40%{transform:scale(1.12)}}
+@media (prefers-reduced-motion:reduce){.fab.bump,.models.need .models-o{animation:none}}
+.toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+/* Pedido */
+#cart{width:min(94vw,460px);max-height:min(90vh,820px);margin:auto}
+.cart-box{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:20px 18px 18px;color:var(--silver);display:flex;flex-direction:column;gap:14px;max-height:min(90vh,820px);overflow:auto}
+.cart-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.cart-head h2{font-size:22px}
+.cart-x{background:transparent;border:1px solid var(--line);color:var(--silver);border-radius:999px;width:38px;height:38px;font-size:20px;cursor:pointer;flex:none}
+.cart-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.cart-item{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;border-bottom:1px solid var(--line);padding-bottom:10px}
+.cart-item img{width:56px;height:56px;object-fit:cover;border-radius:10px;background:#000}
+.cart-item b{display:block;font-size:15px;font-weight:600}
+.cart-item small{display:block;color:var(--muted);font-size:13px}
+.qty{display:flex;align-items:center;gap:6px}
+.qty button{width:30px;height:30px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--silver);font-size:17px;cursor:pointer;line-height:1}
+.qty span{min-width:18px;text-align:center;font-variant-numeric:tabular-nums;font-weight:600}
+.cart-empty{color:var(--muted);margin:0;text-align:center;padding:16px 0}
+.cart-total{display:flex;justify-content:space-between;align-items:baseline;font-size:17px;font-weight:600}
+.cart-total strong{font-family:var(--display);color:var(--ice);font-size:22px}
+.pay{border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px;background:color-mix(in srgb,var(--ink) 50%,transparent)}
+.pay-k{margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ice);font-weight:600}
+.pay-row{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:14px}
+.pay-row span{color:var(--muted);flex:none}
+.pay-row code{font:600 14px var(--body);color:var(--silver);word-break:break-all;text-align:right;flex:1}
+.copy{flex:none;font:600 13px var(--body);border:1px solid var(--line);background:transparent;color:var(--silver);border-radius:999px;padding:5px 11px;cursor:pointer}
+.copy.ok{background:#25d366;border-color:#25d366;color:#04140a}
+.pay small{color:var(--muted);font-size:13px}
+.cart-actions{display:flex;flex-direction:column;gap:8px}
+.cart-actions a,.cart-actions button.go{display:block;text-align:center;padding:14px;border-radius:12px;font:700 16px var(--body);text-decoration:none;border:0;cursor:pointer}
+.cart-actions .go-ig{background:var(--cobalt);color:#fff}
+.cart-actions .clear{background:transparent;border:0;color:var(--muted);font:600 14px var(--body);padding:8px;cursor:pointer}
 </style>
 
 <header>
@@ -117,12 +158,25 @@ button.ask{font-family:var(--body);cursor:pointer}
   </div>
 </footer>
 
-<dialog id="pick" aria-labelledby="pt"><div class="pick-box">
-  <p class="pick-k">¿Por dónde querés pedir?</p>
-  <h3 id="pt"></h3><p class="pick-p" id="pp"></p>
-  <a class="pick-btn wa" id="pwa" target="_blank" rel="noopener">WhatsApp</a>
-  <a class="pick-btn ig" id="pig" target="_blank" rel="noopener">Instagram</a>
-  <button type="button" class="pick-x" id="pclose">Cancelar</button>
+<button type="button" class="fab cart" id="fab-cart" hidden aria-haspopup="dialog">Tu pedido <span class="n" id="fab-n">0</span><span id="fab-t"></span></button>
+<a class="fab wa" id="fab-wa" href="https://wa.me/5493834024275?text=Hola!%20Quiero%20info%20de%20solofachas%20%F0%9F%8C%80" target="_blank" rel="noopener">WhatsApp</a>
+<dialog id="cart" aria-labelledby="cart-title"><div class="cart-box">
+  <div class="cart-head"><h2 id="cart-title">Tu pedido</h2><button type="button" class="cart-x" id="cart-x" aria-label="Cerrar">×</button></div>
+  <ul class="cart-list" id="cart-list"></ul>
+  <p class="cart-empty" id="cart-empty" hidden>Todavía no agregaste nada. Tocá “Agregar al pedido” en los productos que te gusten.</p>
+  <div class="cart-total" id="cart-total-row"><span>Total</span><strong id="cart-total">$0</strong></div>
+  <div class="pay">
+    <p class="pay-k">Pagá por transferencia</p>
+    <div class="pay-row"><span>Alias</span><code id="pay-alias">arias197</code><button type="button" class="copy" data-copy="arias197">Copiar</button></div>
+    <div class="pay-row"><span>CVU</span><code>0000003100010747497269</code><button type="button" class="copy" data-copy="0000003100010747497269">Copiar</button></div>
+    <div class="pay-row"><span>Titular</span><code>Joaquin Alexander Arias</code></div>
+    <small>Antes de transferir, mandanos el pedido y te confirmamos el stock.</small>
+  </div>
+  <div class="cart-actions">
+    <a class="wa" id="cart-wa" target="_blank" rel="noopener">Enviar pedido por WhatsApp</a>
+    <button type="button" class="go go-ig" id="cart-ig">Enviar pedido por Instagram</button>
+    <button type="button" class="clear" id="cart-clear">Vaciar pedido</button>
+  </div>
 </div></dialog>
 <div class="toast" id="toast" role="status" hidden></div>
 <dialog id="zoom"><button type="button" aria-label="Cerrar" id="close">×</button><img id="zimg" alt=""><p id="zcap"></p></dialog>
@@ -130,9 +184,30 @@ button.ask{font-family:var(--body);cursor:pointer}
 <script>
 const IG="https://ig.me/m/solofachas__";
 const WA="https://wa.me/5493834024275";
-const waLink=it=>WA+"?text="+encodeURIComponent(`Hola! Quiero: ${it.t} (${it.p}) 🌀`);
 const CROPPED=new Set(["58319.jpg","58322.jpg","58324.jpg","58325.jpg","58422.jpg","58507.jpg","58510.jpg","58511.jpg","58412.jpg","58411.jpg","58383.jpg","58320.jpg","58381.jpg","58329.jpg","58330.jpg","58483.jpg","58475.jpg","58493.jpg","58494.jpg"]);
 const src=f=>(CROPPED.has(f)?"img2/":"img/")+f;
+// Modelos que se pueden elegir en las fotos con varios productos
+const MODELS={
+ "relojes-tela.jpg":["Verde","Negro","Azul","Marrón"],
+ "relojes-negros.jpg":["Números romanos","Números grandes","Total black"],
+ "58319.jpg":["Corazón","Moño","Mariposa"],
+ "58325.jpg":["Rosa roja","Águila","Corazón «Love»","Alas","Búho"],
+ "58322.jpg":["Telaraña","Araña","Ataúd","Esqueleto","Carta"],
+ "58324.jpg":["Cadena","Cinturón con hebilla","Hongo","Espiral"],
+ "58422.jpg":["Sol","Mariposa","Ondas","Minimalista"],
+ "pulseras-cristal.jpg":["Rosa con hojitas","Celeste con florcita"],
+ "pulseras-perlas.jpg":["Perlas con broche T","Perlas con dijes","Eslabones grandes","Tipo serpiente"],
+ "58483.jpg":["Lisa","Trenzada","Con nudo","Con piedra"],
+ "58475.jpg":["Lisa","Con cristales"],
+ "58493.jpg":["Con perlitas","Con bolitas"],
+ "58507.jpg":["Aros entrelazados","Mariposa con brillitos"],
+ "58510.jpg":["Estrella","Barrita vertical"],
+ "58412.jpg":["Tornasolado","Dorado"],
+ "58411.jpg":["As de picas con dado","Estrellas plateadas"],
+ "aros-semanales.jpg":["Lunitas rosas","Mariposas","Copos","Bolitas","Hojitas","Torre Eiffel","Argollitas"],
+ "aros-set6.jpg":["Bolitas doradas","Brillantes","Florcitas","Argollitas","Trébol rojo","Perlas colgantes"]
+};
+const OTRO="Otro (lo aclaro en el chat)";
 const CATS=[
  {id:"relojes",name:"Relojes",items:[
   {img:"set-rosa.jpg",t:"Set reloj + pulsera rosa",p:"$15.000",d:"Reloj dorado con brillitos y pulsera a juego con piedras rosas. Vienen juntos.",tall:1,
@@ -220,9 +295,21 @@ CATS.forEach(c=>{
   c.items.forEach(it=>{
     const a=document.createElement("article");a.className="card"+(it.tall?" tall":"");
     a.innerHTML=`<button class="photo" type="button" aria-label="Ver foto grande: ${it.t}"><img src="${src(it.img)}" alt="${it.t}" loading="lazy"></button>
-    <div class="info"><h3>${it.t}</h3><p>${it.d}</p>${it.f?`<ul>${it.f.map(x=>`<li>${x}</li>`).join("")}</ul>`:""}<div class="row"><span class="price">${it.p||"Consultá precio"}</span><button type="button" class="ask want">Lo quiero</button></div></div>`;
+    <div class="info"><h3>${it.t}</h3><p>${it.d}</p>${it.f?`<ul>${it.f.map(x=>`<li>${x}</li>`).join("")}</ul>`:""}${MODELS[it.img]?`<div class="models"><p class="models-k">Elegí el modelo</p><div class="models-o" role="radiogroup" aria-label="Modelo">${[...MODELS[it.img],OTRO].map(m=>`<button type="button" role="radio" aria-checked="false">${m}</button>`).join("")}</div></div>`:""}<div class="row"><span class="price">${it.p||"Consultá precio"}</span><button type="button" class="ask want">Agregar al pedido</button></div></div>`;
     a.querySelector(".photo").addEventListener("click",()=>openZoom(it));
-    a.querySelector(".want").addEventListener("click",()=>elegir(it));
+    let modelo=null;
+    const mbox=a.querySelector(".models");
+    if(mbox) mbox.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{
+      mbox.querySelectorAll("button").forEach(x=>x.setAttribute("aria-checked",x===b?"true":"false"));
+      modelo=b.textContent;mbox.classList.remove("need");
+    }));
+    const want=a.querySelector(".want");
+    want.addEventListener("click",()=>{
+      if(mbox&&!modelo){mbox.classList.remove("need");void mbox.offsetWidth;mbox.classList.add("need");showToast("Elegí el modelo primero 👆");return}
+      addToCart(it,modelo);
+      want.textContent="¡Agregado! ✓";want.classList.add("added");
+      setTimeout(()=>{want.textContent="Agregar al pedido";want.classList.remove("added")},1600);
+    });
     g.append(a);
   });
   main.append(s);
@@ -234,22 +321,68 @@ filters.addEventListener("click",e=>{
 });
 const toast=document.getElementById("toast");let tt;
 function showToast(m){toast.textContent=m;toast.hidden=false;clearTimeout(tt);tt=setTimeout(()=>toast.hidden=true,5000)}
-function pedir(it){
-  const msg=`Hola! Quiero: ${it.t} (${it.p})`;
-  try{navigator.clipboard.writeText(msg).then(()=>showToast("Mensaje copiado. Pegalo en el chat de Instagram 🌀"),()=>showToast("Escribí en el chat: "+msg))}
-  catch(e){showToast("Escribí en el chat: "+msg)}
+/* ---------- Pedido (carrito) ---------- */
+const KEY="sf-pedido";
+const num=p=>Number(String(p||"").replace(/[^0-9]/g,""))||0;
+const money=n=>"$"+n.toLocaleString("es-AR");
+let cart=[];
+try{cart=JSON.parse(localStorage.getItem(KEY)||"[]");if(!Array.isArray(cart))cart=[]}catch(e){cart=[]}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(cart))}catch(e){}};
+const label=l=>l.t+(l.m?` (${l.m})`:"");
+const total=()=>cart.reduce((s,l)=>s+num(l.p)*l.q,0);
+function addToCart(it,m){
+  const id=it.img+"|"+(m||"");
+  const ex=cart.find(l=>l.id===id);
+  if(ex)ex.q++;else cart.push({id,t:it.t,m,p:it.p,img:it.img,q:1});
+  save();renderCart();
+  const f=document.getElementById("fab-cart");f.classList.remove("bump");void f.offsetWidth;f.classList.add("bump");
+  showToast("Agregado al pedido: "+label(cart.find(l=>l.id===id)));
 }
-const pick=document.getElementById("pick");
-function elegir(it){
-  document.getElementById("pt").textContent=it.t;
-  document.getElementById("pp").textContent=it.p;
-  document.getElementById("pwa").href=waLink(it);
-  const ig=document.getElementById("pig");ig.href=IG;ig.onclick=()=>{pedir(it);pick.close()};
-  document.getElementById("pwa").onclick=()=>pick.close();
-  pick.showModal();
+function message(){
+  const lines=cart.map(l=>`• ${l.q} × ${label(l)} — ${money(num(l.p)*l.q)}`);
+  return `Hola! Quiero hacer este pedido 🌀\n${lines.join("\n")}\nTotal: ${money(total())}`;
 }
-document.getElementById("pclose").onclick=()=>pick.close();
-pick.addEventListener("click",e=>{if(e.target===pick)pick.close()});
+function renderCart(){
+  const n=cart.reduce((s,l)=>s+l.q,0);
+  const fab=document.getElementById("fab-cart"),wa=document.getElementById("fab-wa");
+  fab.hidden=n===0;wa.hidden=n>0;
+  document.getElementById("fab-n").textContent=n;
+  document.getElementById("fab-t").textContent=n?money(total()):"";
+  const list=document.getElementById("cart-list");list.innerHTML="";
+  cart.forEach(l=>{
+    const li=document.createElement("li");li.className="cart-item";
+    li.innerHTML=`<img src="${src(l.img)}" alt=""><div><b></b><small></small></div><div class="qty"><button type="button" aria-label="Uno menos">−</button><span></span><button type="button" aria-label="Uno más">+</button></div>`;
+    li.querySelector("b").textContent=l.t;
+    li.querySelector("small").textContent=(l.m?l.m+" · ":"")+money(num(l.p)*l.q);
+    li.querySelector(".qty span").textContent=l.q;
+    const [minus,plus]=li.querySelectorAll(".qty button");
+    minus.onclick=()=>{l.q--;if(l.q<=0)cart=cart.filter(x=>x!==l);save();renderCart()};
+    plus.onclick=()=>{l.q++;save();renderCart()};
+    list.append(li);
+  });
+  const empty=n===0;
+  document.getElementById("cart-empty").hidden=!empty;
+  document.getElementById("cart-total-row").hidden=empty;
+  document.querySelector(".cart-actions").hidden=empty;
+  document.getElementById("cart-total").textContent=money(total());
+  document.getElementById("cart-wa").href=WA+"?text="+encodeURIComponent(message());
+}
+const cartDlg=document.getElementById("cart");
+document.getElementById("fab-cart").onclick=()=>{renderCart();cartDlg.showModal()};
+document.getElementById("cart-x").onclick=()=>cartDlg.close();
+cartDlg.addEventListener("click",e=>{if(e.target===cartDlg)cartDlg.close()});
+document.getElementById("cart-ig").onclick=()=>{
+  const msg=message();
+  const done=()=>{showToast("Pedido copiado. Pegalo en el chat de Instagram 🌀");window.open(IG,"_blank","noopener")};
+  try{navigator.clipboard.writeText(msg).then(done,()=>{showToast("Copiá tu pedido desde WhatsApp o escribinos por Instagram");window.open(IG,"_blank","noopener")})}catch(e){window.open(IG,"_blank","noopener")}
+};
+document.getElementById("cart-clear").onclick=()=>{cart=[];save();renderCart();cartDlg.close()};
+document.querySelectorAll(".copy").forEach(b=>b.addEventListener("click",()=>{
+  const ok=()=>{b.textContent="¡Copiado!";b.classList.add("ok");setTimeout(()=>{b.textContent="Copiar";b.classList.remove("ok")},1500)};
+  try{navigator.clipboard.writeText(b.dataset.copy).then(ok,()=>showToast("Mantené apretado el número para copiarlo"))}catch(e){showToast("Mantené apretado el número para copiarlo")}
+}));
+window.addEventListener("storage",e=>{if(e.key===KEY){try{cart=JSON.parse(e.newValue||"[]")}catch(_){cart=[]}renderCart()}});
+renderCart();
 const dlg=document.getElementById("zoom");
 function openZoom(it){document.getElementById("zimg").src=src(it.img);document.getElementById("zimg").alt=it.t;document.getElementById("zcap").textContent=it.t;dlg.showModal()}
 document.getElementById("close").onclick=()=>dlg.close();
