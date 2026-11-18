@@ -1,4 +1,5 @@
-:HL["/Solofachas/landing/_next/static/chunks/1udiv5yegv8qp.css","style"]
+:HL["/Solofachas/landing/_next/static/chunks/3zb1p6yebydn8.css","style"]
 :HC["/",""]
+:HL["/Solofachas/landing/_next/static/chunks/19rhlcx2srev9.css","style"]
 1:[["children",{"s":"__PAGE__","h":160}]]
-0:{"b":"tb26iahzZptzoqKavzXNV","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"BFJkC7Kgel2Vqjsa-RAAk","t":{"t":{"s":"","h":80,"c":"$Q1"}}}

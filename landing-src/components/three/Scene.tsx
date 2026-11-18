@@ -3,7 +3,7 @@
 import * as THREE from "three";
 import { Suspense, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Environment, Lightformer, PerformanceMonitor } from "@react-three/drei";
+import { Environment, Lightformer } from "@react-three/drei";
 import { sceneState } from "@/lib/sceneState";
 import { BASE, type VariantId } from "@/lib/data";
 import Watch from "./Watch";
@@ -31,9 +31,26 @@ function DynamicLights({ reduced }: { reduced: boolean }) {
   );
 }
 
-type Props = { variantId: VariantId; isMobile: boolean; reduced: boolean; active: boolean };
+// Mide los cuadros por segundo reales durante los primeros segundos
+function FpsProbe({ onResult }: { onResult: (fps: number) => void }) {
+  const st = useRef({ t: 0, n: 0, done: false });
+  useFrame((_, delta) => {
+    const s = st.current;
+    if (s.done) return;
+    s.t += delta;
+    if (s.t < 1) return; // el primer segundo compila shaders, no cuenta
+    s.n++;
+    if (s.t >= 3) {
+      s.done = true;
+      onResult(s.n / (s.t - 1));
+    }
+  });
+  return null;
+}
 
-export default function Scene({ variantId, isMobile, reduced, active }: Props) {
+type Props = { variantId: VariantId; isMobile: boolean; reduced: boolean; active: boolean; onSlow: () => void };
+
+export default function Scene({ variantId, isMobile, reduced, active, onSlow }: Props) {
   // baja la resolución sola si el dispositivo no llega a mantener la animación fluida
   const [low, setLow] = useState(false);
   return (
@@ -47,7 +64,12 @@ export default function Scene({ variantId, isMobile, reduced, active }: Props) {
         <img src={`${BASE}/productos/reloj-verde.jpg`} alt="Reloj plateado esfera verde" className="mx-auto mt-[45svh] w-56 rounded-3xl opacity-90" />
       }
     >
-      <PerformanceMonitor flipflops={1} onDecline={() => setLow(true)} />
+      <FpsProbe
+        onResult={(fps) => {
+          if (fps < 30) onSlow(); // no da abasto: pasa al modo liviano
+          else if (fps < 50) setLow(true); // anda justo: baja la resolución
+        }}
+      />
       <DynamicLights reduced={reduced} />
       {/* estudio fotográfico armado con paneles de luz: reflejos realistas sin descargar HDRs */}
       <Environment resolution={128} frames={1}>

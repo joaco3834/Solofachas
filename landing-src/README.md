@@ -17,3 +17,10 @@ Después subí los cambios a `main` y GitHub Pages la actualiza en uno o dos min
 - Productos, precios y links: `lib/data.ts`
 - Fotos de los destacados: `public/productos/`
 - Modelo 3D del reloj: `components/three/Watch.tsx`
+- Imágenes del modo liviano: `public/reloj/` (renders del mismo modelo 3D)
+
+## Modo liviano
+
+Si la compu o el celu no tienen buena placa de video, la página muestra el reloj como imagen
+(sigue moviéndose con el scroll y el mouse) en lugar del 3D en vivo. Para forzar un modo:
+agregá `?modo=3d` o `?modo=liviano` al final del link.

@@ -10,12 +10,14 @@ import Featured from "./Featured";
 import HowTo from "./HowTo";
 import FinalCta from "./FinalCta";
 import Footer from "./Footer";
+import SmoothScroll from "./SmoothScroll";
 
 export default function Landing() {
   const isMobile = useMedia("(max-width: 767px)");
   const reduced = useMedia("(prefers-reduced-motion: reduce)");
   return (
     <>
+      <SmoothScroll />
       <Cursor />
       <Header />
       <main className="overflow-x-clip">

@@ -1,13 +1,15 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { sceneState } from "@/lib/sceneState";
 import type { VariantId } from "@/lib/data";
 import Hero from "./Hero";
 import Story from "./Story";
+import WatchPoster from "./WatchPoster";
+import { isWeakGraphics } from "@/lib/gpu";
 
 const Scene = dynamic(() => import("./three/Scene"), { ssr: false });
 
@@ -19,6 +21,28 @@ export default function Experience({ isMobile, reduced }: Props) {
   const [variant, setVariant] = useState<VariantId>("verde");
   const [active, setActive] = useState(true);
   const [ready, setReady] = useState(false);
+  // "3d" = reloj en vivo · "lite" = imágenes del reloj (compus o celus sin buena placa de video)
+  const [mode, setMode] = useState<"3d" | "lite" | null>(null);
+
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get("modo");
+    let m: "3d" | "lite" = "3d";
+    try {
+      if (sessionStorage.getItem("sf-modo") === "lite") m = "lite";
+    } catch {}
+    if (m === "3d" && isWeakGraphics()) m = "lite";
+    if (q === "3d") m = "3d";
+    if (q === "liviano") m = "lite";
+    setMode(m);
+  }, []);
+
+  const goLite = useCallback(() => {
+    if (new URLSearchParams(window.location.search).get("modo") === "3d") return;
+    setMode("lite");
+    try {
+      sessionStorage.setItem("sf-modo", "lite");
+    } catch {}
+  }, []);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -53,7 +77,8 @@ export default function Experience({ isMobile, reduced }: Props) {
         <div
           className={`sticky top-0 h-[100svh] w-full transition-opacity duration-[1600ms] ${ready ? "opacity-100" : "opacity-0"}`}
         >
-          <Scene variantId={variant} isMobile={isMobile} reduced={reduced} active={active} />
+          {mode === "3d" && <Scene variantId={variant} isMobile={isMobile} reduced={reduced} active={active} onSlow={goLite} />}
+          {mode === "lite" && <WatchPoster variant={variant} isMobile={isMobile} reduced={reduced} />}
         </div>
       </div>
       <Hero />
