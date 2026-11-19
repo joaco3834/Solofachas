@@ -1,12 +1,14 @@
 import { CATALOGO, IG, WA } from "@/lib/data";
+import LogoMark from "./ui/LogoMark";
 
 export default function Footer() {
   return (
     <footer className="relative z-10 overflow-hidden px-4 pb-10 pt-20 md:px-10">
       <div className="flex flex-col justify-between gap-10 border-t border-line pt-10 md:flex-row">
         <div>
-          <p className="font-display text-2xl font-extrabold">
-            SOLO<span className="text-cobalt">FACHAS</span>
+          <p className="flex items-center gap-3 font-display text-2xl font-extrabold">
+            <LogoMark className="h-9 w-9 text-cobalt" />
+            <span>SOLO<span className="text-cobalt">FACHAS</span></span>
           </p>
           <p className="mt-2 max-w-xs text-sm text-muted">Accesorios para hombre y mujer. San Fernando del Valle de Catamarca.</p>
         </div>

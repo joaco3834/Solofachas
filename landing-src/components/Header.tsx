@@ -1,4 +1,5 @@
 "use client";
+import LogoMark from "./ui/LogoMark";
 
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { useState } from "react";
@@ -33,8 +34,9 @@ export default function Header() {
           solid ? "border-line/80 bg-ink/90" : "border-transparent bg-transparent"
         }`}
       >
-        <a href="#inicio" className="font-display text-[17px] font-extrabold tracking-tight md:text-lg" aria-label="Solofachas, volver al inicio">
-          SOLO<span className="text-cobalt">FACHAS</span>
+        <a href="#inicio" className="flex items-center gap-2.5 font-display text-[17px] font-extrabold tracking-tight md:text-lg" aria-label="Solofachas, volver al inicio">
+          <LogoMark className="h-7 w-7 text-cobalt" />
+          <span>SOLO<span className="text-cobalt">FACHAS</span></span>
         </a>
         <nav aria-label="Secciones" className="hidden items-center gap-1 md:flex">
           {links.map((l) => (
