@@ -555,18 +555,20 @@ const CATS=[
 const filters=document.getElementById("filters"),main=document.getElementById("catalogo");
 function btn(id,label){const b=document.createElement("button");b.type="button";b.id="f-"+id;b.textContent=label;b.dataset.cat=id;b.setAttribute("aria-pressed","false");filters.append(b);return b}
 btn("todo","Todo").setAttribute("aria-pressed","true");
-// Íconos 3D por categoría: al tocar uno, filtra y baja hasta esos productos
+// Íconos 3D por categoría (primero "Todo"): al tocar uno, filtra y baja hasta esos productos
+const CAR_LIST=[{id:"todo",name:"Todo",items:CATS.flatMap(c=>c.items)},...CATS];
 {
   const SHORT={gorras:"Gorras"},box=document.getElementById("cats");
   const smooth=!matchMedia("(prefers-reduced-motion: reduce)").matches;
-  CATS.forEach((c,i)=>{
+  CAR_LIST.forEach((c,i)=>{
     const t=document.createElement("button");t.type="button";t.className="cat-tile";t.dataset.cat=c.id;t.style.setProperty("--i",i);
-    t.setAttribute("aria-label",`${c.name}: ver ${c.items.length} ${c.items.length===1?"producto":"productos"}`);
+    if(c.id==="todo")t.setAttribute("aria-current","true");
+    t.setAttribute("aria-label",c.id==="todo"?`Ver todos los productos (${c.items.length})`:`${c.name}: ver ${c.items.length} ${c.items.length===1?"producto":"productos"}`);
     t.innerHTML=`<span class="cat-3d"><span class="cat-glow"></span><span class="cat-float"><img src="iconos/${c.id}.webp" alt="" width="320" height="320"></span></span><span class="cat-name">${SHORT[c.id]||c.name}</span>`;
     t.addEventListener("pointermove",e=>{if(e.pointerType!=="mouse")return;const r=t.getBoundingClientRect();
       t.style.setProperty("--ry",((e.clientX-r.left)/r.width-.5)*36+"deg");t.style.setProperty("--rx",(.5-(e.clientY-r.top)/r.height)*30+"deg")});
     t.addEventListener("pointerleave",()=>{t.style.removeProperty("--rx");t.style.removeProperty("--ry")});
-    t.addEventListener("click",()=>{document.getElementById("f-"+c.id).click();requestAnimationFrame(()=>document.getElementById(c.id).scrollIntoView({behavior:smooth?"smooth":"auto",block:"start"}))});
+    t.addEventListener("click",()=>{document.getElementById("f-"+c.id).click();requestAnimationFrame(()=>document.getElementById(c.id==="todo"?(CATS[0].id):c.id).scrollIntoView({behavior:smooth?"smooth":"auto",block:"start"}))});
     const item=document.createElement("div");item.className="car-item";item.append(t);box.append(item);
   });
 }
@@ -744,7 +746,7 @@ qv.addEventListener("click",e=>{if(e.target===qv)qv.close()});
     });
     if(best!==front){
       items[front]?.classList.remove("front");items[best].classList.add("front");front=best;
-      const c=CATS[best];cap.querySelector("b").textContent=c.name;cap.querySelector("span").textContent=`${c.items.length} ${c.items.length===1?"producto":"productos"} · tocá para ver`;
+      const c=CAR_LIST[best];cap.querySelector("b").textContent=c.id==="todo"?"Ver todo":c.name;cap.querySelector("span").textContent=`${c.items.length} ${c.items.length===1?"producto":"productos"} · tocá para ver`;
     }
   }
   function tick(){
