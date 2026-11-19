@@ -50,19 +50,29 @@ section{display:flex;flex-direction:column;gap:18px}
 .sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding-bottom:10px}
 h2{font-family:var(--display);font-weight:700;font-size:clamp(22px,4vw,30px);margin:0;letter-spacing:-.01em}
 .count{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
-.grid{columns:3 280px;column-gap:18px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;break-inside:avoid;margin-bottom:18px}
-.card button.photo{all:unset;cursor:zoom-in;display:block;max-width:100%;background:#000;overflow:hidden}
-.card img{width:100%;height:auto;display:block;transition:transform .4s ease}
-.card button.photo:hover img{transform:scale(1.04)}
-.info{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
-.info h3{margin:0;font-size:17px;font-weight:600}
-.info p{margin:0;color:var(--muted);font-size:14px;flex:1}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:22px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform .35s ease,border-color .35s ease,box-shadow .35s ease}
+.card:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--cobalt) 55%,var(--line));box-shadow:0 20px 44px -22px rgba(47,107,255,.55)}
+.card button.photo{all:unset;cursor:pointer;display:block;position:relative}
+/* Marco de foto: todas en 4:5. Las que no entran se muestran completas sobre un fondo desenfocado */
+.frame{position:relative;display:block;aspect-ratio:4/5;overflow:hidden;background:#0b0f1f}
+.frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.frame.fit::before{content:"";position:absolute;inset:-12%;background:var(--bg) center/cover no-repeat;filter:blur(22px) brightness(.5) saturate(1.1)}
+.frame.fit img{object-fit:contain;padding:7%;filter:drop-shadow(0 14px 22px rgba(0,0,0,.55))}
+.frame.fit.wide img{padding:2%}
+.frame::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.32))}
+.card:hover .frame img{transform:scale(1.05)}
+.badge{position:absolute;left:10px;top:10px;z-index:1;background:rgba(7,11,26,.82);color:var(--ice);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:5px 10px;border-radius:999px}
+.info{padding:14px 16px 16px;display:flex;flex-direction:column;gap:4px;flex:1}
+.info h3{margin:0;font-size:16px;font-weight:600;line-height:1.3}
+.info h3 button{all:unset;cursor:pointer}
+.info h3 button:hover{color:#fff;text-decoration:underline;text-underline-offset:3px}
+.info p{margin:0;color:var(--muted);font-size:13.5px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
 .info ul{margin:4px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:3px;font-size:13.5px;color:var(--silver)}
 .info li{padding-left:16px;position:relative}
 .info li::before{content:"";position:absolute;left:2px;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--cobalt)}
 .price{font-size:17px}
-.row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:12px}
 .price{font-weight:600;color:var(--ice);font-size:15px;font-variant-numeric:tabular-nums}
 .ask{font-size:14px;font-weight:600;color:var(--silver);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 12px}
 .ask:hover{border-color:var(--cobalt);color:#fff}
@@ -73,10 +83,15 @@ footer strong{color:var(--silver);font-family:var(--display);font-weight:700}
 
 dialog{border:0;padding:0;background:transparent;max-width:min(96vw,1100px);max-height:92vh}
 dialog::backdrop{background:rgba(3,5,12,.88)}
-dialog img{max-height:86vh;width:auto;max-width:100%;border-radius:10px;display:block}
-dialog p{color:var(--silver);text-align:center;margin:10px 0 0}
-#zoom>button{position:absolute;top:8px;right:8px;background:var(--panel);color:var(--silver);border:1px solid var(--line);border-radius:999px;width:38px;height:38px;font-size:20px;cursor:pointer}
-@media (prefers-reduced-motion:reduce){.card img{transition:none}}
+@media (prefers-reduced-motion:reduce){.frame img,.card{transition:none}.card:hover{transform:none}}
+@media (max-width:600px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .info{padding:10px 11px 12px}
+  .info h3{font-size:14px}
+  .info p{font-size:12.5px}
+  .row{flex-direction:column;align-items:stretch;gap:8px;padding-top:8px}
+  .row .ask{text-align:center;padding:8px 10px}
+}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:20;background:var(--silver);color:var(--ink);font-weight:600;font-size:14px;padding:12px 18px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.4);max-width:calc(100% - 32px);text-align:center}
 .wa{background:#25d366;border-color:#25d366;color:#04140a;font-weight:700;text-decoration:none}
 .wa:hover,.wa:focus-visible{background:#3ee07a}
@@ -102,6 +117,28 @@ button.ask{font-family:var(--body);cursor:pointer}
 @keyframes bump{40%{transform:scale(1.12)}}
 @media (prefers-reduced-motion:reduce){.fab.bump,.models.need .models-o{animation:none}}
 .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+/* Vista de producto */
+#qv{width:min(94vw,980px);max-height:92vh;margin:auto}
+.qv-box{position:relative;display:grid;grid-template-columns:1.1fr 1fr;background:var(--panel);border:1px solid var(--line);border-radius:22px;overflow:hidden;max-height:92vh;color:var(--silver)}
+.qv-media .frame{aspect-ratio:auto;height:100%;min-height:440px}
+.qv-media .frame img{object-fit:contain;padding:5%}
+.qv-info{padding:30px 26px 24px;overflow:auto;display:flex;flex-direction:column;gap:12px;text-align:left}
+.qv-x{position:absolute;top:12px;right:12px;z-index:2;background:rgba(7,11,26,.8)}
+.qv-cat{margin:0;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ice);font-weight:600}
+.qv-info h2{font-size:clamp(22px,3vw,30px);line-height:1.1;padding-right:36px}
+.qv-price{margin:0;font-family:var(--display);font-weight:700;font-size:24px;color:var(--ice)}
+.qv-d{margin:0;color:var(--muted);font-size:15px}
+.qv-f{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:5px;font-size:14px}
+.qv-f li{padding-left:16px;position:relative}
+.qv-f li::before{content:"";position:absolute;left:2px;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--cobalt)}
+.qv-add{margin-top:auto;border:0;border-radius:12px;padding:15px;font:700 16px var(--body);background:#25d366;color:#04140a;cursor:pointer}
+.qv-add:hover{background:#3ee07a}
+.qv-add.added{background:var(--silver)!important;color:var(--ink)!important}
+@media (max-width:720px){
+  .qv-box{grid-template-columns:1fr;overflow:auto}
+  .qv-media .frame{min-height:0;height:46vh}
+  .qv-info{overflow:visible;padding:20px 18px}
+}
 /* Pedido */
 #cart{width:min(94vw,460px);max-height:min(90vh,820px);margin:auto}
 .cart-box{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:20px 18px 18px;color:var(--silver);display:flex;flex-direction:column;gap:14px;max-height:min(90vh,820px);overflow:auto}
@@ -179,7 +216,19 @@ button.ask{font-family:var(--body);cursor:pointer}
   </div>
 </div></dialog>
 <div class="toast" id="toast" role="status" hidden></div>
-<dialog id="zoom"><button type="button" aria-label="Cerrar" id="close">×</button><img id="zimg" alt=""><p id="zcap"></p></dialog>
+<dialog id="qv" aria-labelledby="qv-t"><div class="qv-box">
+  <button type="button" class="cart-x qv-x" id="qv-x" aria-label="Cerrar">×</button>
+  <div class="qv-media"><span class="frame fit" id="qv-frame"><img id="qv-img" alt=""></span></div>
+  <div class="qv-info">
+    <p class="qv-cat" id="qv-cat"></p>
+    <h2 id="qv-t"></h2>
+    <p class="qv-price" id="qv-p"></p>
+    <p class="qv-d" id="qv-d"></p>
+    <ul class="qv-f" id="qv-f"></ul>
+    <div class="models" id="qv-models" hidden><p class="models-k">Elegí el modelo</p><div class="models-o" role="radiogroup" aria-label="Modelo"></div></div>
+    <button type="button" class="qv-add" id="qv-add">Agregar al pedido</button>
+  </div>
+</div></dialog>
 
 <script>
 const IG="https://ig.me/m/solofachas__";
@@ -293,20 +342,20 @@ CATS.forEach(c=>{
   s.innerHTML=`<div class="sec-head"><h2>${c.name}</h2><span class="count">${c.items.length} ${c.items.length===1?"modelo":"modelos"}</span></div><div class="grid"></div>`;
   const g=s.querySelector(".grid");
   c.items.forEach(it=>{
-    const a=document.createElement("article");a.className="card"+(it.tall?" tall":"");
-    a.innerHTML=`<button class="photo" type="button" aria-label="Ver foto grande: ${it.t}"><img src="${src(it.img)}" alt="${it.t}" loading="lazy"></button>
-    <div class="info"><h3>${it.t}</h3><p>${it.d}</p>${it.f?`<ul>${it.f.map(x=>`<li>${x}</li>`).join("")}</ul>`:""}${MODELS[it.img]?`<div class="models"><p class="models-k">Elegí el modelo</p><div class="models-o" role="radiogroup" aria-label="Modelo">${[...MODELS[it.img],OTRO].map(m=>`<button type="button" role="radio" aria-checked="false">${m}</button>`).join("")}</div></div>`:""}<div class="row"><span class="price">${it.p||"Consultá precio"}</span><button type="button" class="ask want">Agregar al pedido</button></div></div>`;
-    a.querySelector(".photo").addEventListener("click",()=>openZoom(it));
-    let modelo=null;
-    const mbox=a.querySelector(".models");
-    if(mbox) mbox.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{
-      mbox.querySelectorAll("button").forEach(x=>x.setAttribute("aria-checked",x===b?"true":"false"));
-      modelo=b.textContent;mbox.classList.remove("need");
-    }));
+    const mods=MODELS[it.img];
+    const a=document.createElement("article");a.className="card";
+    a.innerHTML=`<button class="photo" type="button" aria-label="Ver detalles: ${it.t}"><span class="frame"><img src="${src(it.img)}" alt="${it.t}" loading="lazy"></span>${mods?`<span class="badge">${mods.length} modelos</span>`:""}</button>
+    <div class="info"><h3><button type="button">${it.t}</button></h3><p>${it.d}</p><div class="row"><span class="price">${it.p||"Consultá precio"}</span><button type="button" class="ask want">${mods?"Elegir modelo":"Agregar al pedido"}</button></div></div>`;
+    const frame=a.querySelector(".frame"),img=frame.querySelector("img");
+    frame.style.setProperty("--bg",`url("${src(it.img)}")`);
+    const fit=()=>{const r=img.naturalWidth/img.naturalHeight;if(r>1||r<.66)frame.classList.add("fit");if(r>1.6)frame.classList.add("wide")};
+    if(img.complete&&img.naturalWidth)fit();else img.addEventListener("load",fit);
+    a.querySelector(".photo").addEventListener("click",()=>openQV(it,c.name));
+    a.querySelector("h3 button").addEventListener("click",()=>openQV(it,c.name));
     const want=a.querySelector(".want");
     want.addEventListener("click",()=>{
-      if(mbox&&!modelo){mbox.classList.remove("need");void mbox.offsetWidth;mbox.classList.add("need");showToast("Elegí el modelo primero 👆");return}
-      addToCart(it,modelo);
+      if(mods){openQV(it,c.name);return}
+      addToCart(it,null);
       want.textContent="¡Agregado! ✓";want.classList.add("added");
       setTimeout(()=>{want.textContent="Agregar al pedido";want.classList.remove("added")},1600);
     });
@@ -385,10 +434,38 @@ window.addEventListener("storage",e=>{if(e.key===KEY){try{cart=JSON.parse(e.newV
 renderCart();
 // viene de la landing con "Tu pedido": abrir el pedido
 if(location.hash==="#pedido"&&cart.length){cartDlg.showModal();history.replaceState(null,"",location.pathname)}
-const dlg=document.getElementById("zoom");
-function openZoom(it){document.getElementById("zimg").src=src(it.img);document.getElementById("zimg").alt=it.t;document.getElementById("zcap").textContent=it.t;dlg.showModal()}
-document.getElementById("close").onclick=()=>dlg.close();
-dlg.addEventListener("click",e=>{if(e.target===dlg)dlg.close()});
+/* ---------- Vista de producto ---------- */
+const qv=document.getElementById("qv");
+let qvItem=null,qvModel=null;
+function openQV(it,cat){
+  qvItem=it;qvModel=null;
+  const im=document.getElementById("qv-img");im.src=src(it.img);im.alt=it.t;
+  document.getElementById("qv-frame").style.setProperty("--bg",`url("${src(it.img)}")`);
+  document.getElementById("qv-cat").textContent=cat;
+  document.getElementById("qv-t").textContent=it.t;
+  document.getElementById("qv-p").textContent=it.p||"Consultá precio";
+  document.getElementById("qv-d").textContent=it.d;
+  const ul=document.getElementById("qv-f");ul.innerHTML="";
+  (it.f||[]).forEach(x=>{const li=document.createElement("li");li.textContent=x;ul.append(li)});
+  const box=document.getElementById("qv-models"),opts=box.querySelector(".models-o");
+  const mods=MODELS[it.img];box.hidden=!mods;box.classList.remove("need");opts.innerHTML="";
+  if(mods)[...mods,OTRO].forEach(m=>{
+    const b=document.createElement("button");b.type="button";b.setAttribute("role","radio");b.setAttribute("aria-checked","false");b.textContent=m;
+    b.onclick=()=>{opts.querySelectorAll("button").forEach(x=>x.setAttribute("aria-checked",x===b?"true":"false"));qvModel=m;box.classList.remove("need")};
+    opts.append(b);
+  });
+  const add=document.getElementById("qv-add");add.textContent="Agregar al pedido";add.classList.remove("added");
+  qv.showModal();
+}
+document.getElementById("qv-add").onclick=()=>{
+  const box=document.getElementById("qv-models");
+  if(!box.hidden&&!qvModel){box.classList.remove("need");void box.offsetWidth;box.classList.add("need");showToast("Elegí el modelo primero 👆");return}
+  addToCart(qvItem,qvModel);
+  const add=document.getElementById("qv-add");add.textContent="¡Agregado! ✓";add.classList.add("added");
+  setTimeout(()=>qv.close(),700);
+};
+document.getElementById("qv-x").onclick=()=>qv.close();
+qv.addEventListener("click",e=>{if(e.target===qv)qv.close()});
 </script>
 
 </body></html>
