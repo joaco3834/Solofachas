@@ -41,6 +41,33 @@ body{background:var(--ink);color:var(--silver);font-family:var(--body);font-size
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ink)}
 .wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 
+/* ===== Carrusel 3D de categorías ===== */
+.car{position:relative;height:310px;perspective:900px;perspective-origin:50% 30%;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+.car.drag{cursor:grabbing}
+.car-ring{position:absolute;inset:0}
+.car-item{position:absolute;left:50%;top:36%;width:128px;margin:-70px 0 0 -64px;will-change:transform,opacity}
+.car-item .cat-tile{width:100%}
+.car-item .cat-3d{width:100%;max-width:none}
+.car-item.front .cat-glow{opacity:1;transform:scale(1.35)}
+.car-item .cat-name{opacity:0;transition:opacity .3s}
+.car-item.front .cat-name{opacity:1;color:var(--silver)}
+.car-floor{position:absolute;left:50%;top:52%;width:min(860px,94%);aspect-ratio:3.2;transform:translate(-50%,-30%);border-radius:50%;pointer-events:none;
+  background:radial-gradient(ellipse at center,rgba(47,107,255,.32),rgba(47,107,255,.08) 45%,transparent 70%)}
+.car-floor i{position:absolute;inset:6% 4%;border-radius:50%;border:1px solid rgba(156,192,255,.45);box-shadow:0 0 18px rgba(47,107,255,.45),inset 0 0 18px rgba(47,107,255,.35)}
+.car-floor i+i{inset:22% 20%;border-style:dashed;border-color:rgba(156,192,255,.35);animation:floorspin 16s linear infinite}
+@keyframes floorspin{to{transform:rotate(360deg)}}
+.car-ui{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:-6px}
+.car-btn{width:42px;height:42px;border-radius:999px;border:1px solid var(--line);background:color-mix(in srgb,var(--panel) 80%,transparent);color:var(--silver);font-size:22px;line-height:1;cursor:pointer;transition:border-color .25s,box-shadow .25s}
+.car-btn:hover{border-color:var(--ice);box-shadow:0 0 16px rgba(47,107,255,.6)}
+.car-cap{margin:0;min-width:170px;text-align:center}
+.car-cap b{display:block;font:800 20px var(--display);letter-spacing:-.01em}
+.car-cap span{font-size:13px;color:var(--muted)}
+@media (max-width:760px){
+  .car{height:270px;perspective:520px}
+  .car-item{width:96px;margin:-56px 0 0 -48px}
+  .car-cap b{font-size:17px}
+}
+@media (prefers-reduced-motion:reduce){.car-floor i+i{animation:none}}
 /* ===== Neofuturismo ===== */
 @property --ang{syntax:"<angle>";initial-value:0deg;inherits:false}
 /* auroras de fondo que se mueven lento */
@@ -132,7 +159,7 @@ section.seen .sec-head::after{transform:scaleX(1)}
 .cat-3d{position:relative;width:86%;max-width:104px;aspect-ratio:1;perspective:500px}
 .cat-glow{position:absolute;inset:20%;border-radius:50%;background:radial-gradient(circle,rgba(47,107,255,.5),transparent 70%);filter:blur(12px);opacity:.5;transition:opacity .35s ease,transform .35s ease}
 .cat-float{position:absolute;inset:0;animation:cat-float 4.2s ease-in-out infinite;animation-delay:calc(var(--i)*-.42s)}
-.cat-3d img{width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(0 12px 14px rgba(0,0,0,.55));
+.cat-3d img{width:100%;height:100%;object-fit:contain;display:block;
   transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .35s cubic-bezier(.2,.8,.2,1)}
 .cat-tile:hover .cat-3d img{transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) scale(1.12)}
 .cat-tile:hover .cat-glow,.cat-tile[aria-current="true"] .cat-glow{opacity:1;transform:scale(1.25)}
@@ -341,7 +368,17 @@ button.ask{font-family:var(--body);cursor:pointer}
   <p class="tag">Relojes, anillos, billeteras, lentes y más. Elegí, armá tu pedido y mandalo por WhatsApp.</p>
 </section>
 
-<section class="wrap cats" aria-label="Elegí una categoría"><div class="cats-grid" id="cats"></div></section>
+<section class="wrap cats" aria-label="Elegí una categoría">
+  <div class="car" id="car">
+    <div class="car-floor" aria-hidden="true"><i></i><i></i></div>
+    <div class="car-ring" id="cats"></div>
+  </div>
+  <div class="car-ui">
+    <button type="button" class="car-btn" id="car-prev" aria-label="Categoría anterior">‹</button>
+    <p class="car-cap" id="car-cap" aria-live="polite"><b></b><span></span></p>
+    <button type="button" class="car-btn" id="car-next" aria-label="Categoría siguiente">›</button>
+  </div>
+</section>
 
 <nav class="catnav" id="catnav" aria-label="Filtrar por categoría"><div class="wrap filters" id="filters"></div></nav>
 
@@ -530,7 +567,7 @@ btn("todo","Todo").setAttribute("aria-pressed","true");
       t.style.setProperty("--ry",((e.clientX-r.left)/r.width-.5)*36+"deg");t.style.setProperty("--rx",(.5-(e.clientY-r.top)/r.height)*30+"deg")});
     t.addEventListener("pointerleave",()=>{t.style.removeProperty("--rx");t.style.removeProperty("--ry")});
     t.addEventListener("click",()=>{document.getElementById("f-"+c.id).click();requestAnimationFrame(()=>document.getElementById(c.id).scrollIntoView({behavior:smooth?"smooth":"auto",block:"start"}))});
-    box.append(t);
+    const item=document.createElement("div");item.className="car-item";item.append(t);box.append(item);
   });
 }
 CATS.forEach(c=>{
@@ -687,6 +724,59 @@ qv.addEventListener("click",e=>{if(e.target===qv)qv.close()});
   const bar=document.getElementById("progress");let ticking=false;
   const upd=()=>{const h=document.documentElement.scrollHeight-innerHeight;bar.style.transform=`scaleX(${h>0?scrollY/h:0})`;ticking=false};
   addEventListener("scroll",()=>{if(!ticking){ticking=true;requestAnimationFrame(upd)}},{passive:true});upd();
+}
+/* ---------- Carrusel 3D: gira solo, se arrastra con inercia y tiene flechas ---------- */
+{
+  const car=document.getElementById("car"),items=[...car.querySelectorAll(".car-item")],n=items.length,step=360/n;
+  const cap=document.getElementById("car-cap"),reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const AUTO=reduce?0:.11;               // grados por cuadro (una vuelta cada ~55 s)
+  let angle=0,vel=AUTO,target=null,dragging=false,down=null,lastX=0,lastT=0,idleUntil=0,front=-1,run=true,raf=0;
+  const radius=()=>car.clientWidth<600?Math.min(150,car.clientWidth*.4):Math.min(380,car.clientWidth*.34);
+  function render(){
+    const R=radius();
+    let best=0,bestCos=-2;
+    items.forEach((el,i)=>{
+      const a=(i*step+angle)*Math.PI/180,c=Math.cos(a),x=Math.sin(a)*R,z=c*R,y=c*R*(car.clientWidth<600?.3:.16);
+      el.style.transform=`translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,${z.toFixed(1)}px)`;
+      el.style.opacity=(.18+.82*Math.pow((c+1)/2,1.4)).toFixed(3);
+      el.style.zIndex=Math.round(z+1000);
+      if(c>bestCos){bestCos=c;best=i}
+    });
+    if(best!==front){
+      items[front]?.classList.remove("front");items[best].classList.add("front");front=best;
+      const c=CATS[best];cap.querySelector("b").textContent=c.name;cap.querySelector("span").textContent=`${c.items.length} ${c.items.length===1?"producto":"productos"} · tocá para ver`;
+    }
+  }
+  function tick(){
+    if(!dragging){
+      if(target!==null){const d=target-angle;angle+=d*.12;if(Math.abs(d)<.05){angle=target;target=null}}
+      else{if(performance.now()>idleUntil)vel+=(AUTO-vel)*.02;else vel*=.95;angle+=vel}
+    }
+    render();
+    raf=run?requestAnimationFrame(tick):0;
+  }
+  const go=dir=>{const base=target??angle;target=Math.round(base/step)*step-dir*step;idleUntil=performance.now()+5000;vel=0};
+  document.getElementById("car-prev").onclick=()=>go(-1);
+  document.getElementById("car-next").onclick=()=>go(1);
+  car.addEventListener("keydown",e=>{if(e.key==="ArrowLeft"){go(-1);e.preventDefault()}if(e.key==="ArrowRight"){go(1);e.preventDefault()}});
+  // arrastrar (con inercia); si casi no se movió, es un toque normal sobre el ícono
+  car.addEventListener("pointerdown",e=>{down={x:e.clientX,id:e.pointerId};lastX=e.clientX;lastT=performance.now();target=null});
+  car.addEventListener("pointermove",e=>{
+    if(!down||e.pointerId!==down.id)return;
+    if(!dragging&&Math.abs(e.clientX-down.x)>6){dragging=true;car.classList.add("drag");car.setPointerCapture(e.pointerId)}
+    if(dragging){const now=performance.now(),dx=e.clientX-lastX;const k=car.clientWidth<600?.45:.28;angle+=dx*k;vel=dx*k/Math.max(1,(now-lastT)/16);lastX=e.clientX;lastT=now}
+  });
+  const up=e=>{if(!down)return;if(dragging){idleUntil=performance.now()+3500;car.classList.remove("drag")}setTimeout(()=>{dragging=false},0);down=null};
+  car.addEventListener("pointerup",up);car.addEventListener("pointercancel",up);
+  car.addEventListener("click",e=>{if(dragging){e.stopPropagation();e.preventDefault()}},true);
+  // tocar un ícono de atrás lo trae al frente; tocar el del frente abre la categoría
+  items.forEach((el,i)=>el.addEventListener("click",e=>{
+    if(i!==front){e.stopPropagation();target=-i*step+Math.round((angle+i*step)/360)*360;idleUntil=performance.now()+5000;vel=0}
+  },true));
+  // solo se anima cuando está en pantalla
+  new IntersectionObserver(([e])=>{run=e.isIntersecting;if(run&&!raf)raf=requestAnimationFrame(tick)}).observe(car);
+  document.addEventListener("visibilitychange",()=>{run=!document.hidden;if(run&&!raf)raf=requestAnimationFrame(tick)});
+  render();raf=requestAnimationFrame(tick);
 }
 </script>
 
