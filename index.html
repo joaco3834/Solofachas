@@ -549,9 +549,13 @@ const CATS=[
    f:["Baño dorado","Con brillos y perlas","Elegí los pares que quieras"]}
  ]},
  {id:"cintos",name:"Cintos",items:[
-  {img:"58320.jpg",t:"Cinto Hello Kitty",p:"$10.000",d:"Negro con hebilla plateada de Hello Kitty y moño de brillos.",f:["Símil cuero negro","Hebilla grande de metal","Moño con strass rosa"]}
+  {img:"58320.jpg",oculto:1,t:"Cinto Hello Kitty",p:"$10.000",d:"Negro con hebilla plateada de Hello Kitty y moño de brillos.",f:["Símil cuero negro","Hebilla grande de metal","Moño con strass rosa"]}
  ]}
 ];
+// Productos ocultos por ahora (oculto:1). Para volver a mostrarlos, borrar "oculto:1".
+// Las categorías que quedan sin productos no se muestran.
+CATS.forEach(c=>{c.items=c.items.filter(it=>!it.oculto)});
+for(let i=CATS.length-1;i>=0;i--)if(!CATS[i].items.length)CATS.splice(i,1);
 const filters=document.getElementById("filters"),main=document.getElementById("catalogo");
 function btn(id,label){const b=document.createElement("button");b.type="button";b.id="f-"+id;b.textContent=label;b.dataset.cat=id;b.setAttribute("aria-pressed","false");filters.append(b);return b}
 btn("todo","Todo").setAttribute("aria-pressed","true");

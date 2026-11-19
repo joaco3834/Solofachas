@@ -68,7 +68,7 @@ export const PRODUCTS: Product[] = [
   { img: "gorra-ny.jpg", name: "Gorra negra NY", price: "$15.000", cat: "Gorras", desc: "Bordado en relieve, regulable.", catImg: "58381.jpg" },
 ];
 
-export const CATEGORIES = ["Relojes", "Anillos", "Billeteras", "Lentes", "Pulseras", "Collares", "Gorras", "Llaveros", "Aros", "Cintos"];
+export const CATEGORIES = ["Relojes", "Anillos", "Billeteras", "Lentes", "Pulseras", "Collares", "Gorras", "Llaveros", "Aros"];
 
 // Collage de la portada. x/y: centro de la foto en % de la portada · w: ancho en vw · r: giro ·
 // d: profundidad (más alto = más cerca, se mueve más con el mouse y el scroll)

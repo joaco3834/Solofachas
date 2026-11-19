@@ -2,4 +2,4 @@
 :HC["/",""]
 :HL["/Solofachas/landing/_next/static/chunks/19rhlcx2srev9.css","style"]
 1:[["children",{"s":"__PAGE__","h":160}]]
-0:{"b":"pOep7plEt6CHiauYKhTrw","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"Tn3UJlicNzmwz0C9zJK5U","t":{"t":{"s":"","h":80,"c":"$Q1"}}}

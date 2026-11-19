@@ -1,4 +1,4 @@
 :HL["/Solofachas/landing/_next/static/chunks/1_1-v9-w9b30b.css","style"]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":"/_not-found","h":96,"c":"$Q2"}]]
-0:{"b":"pOep7plEt6CHiauYKhTrw","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"Tn3UJlicNzmwz0C9zJK5U","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
