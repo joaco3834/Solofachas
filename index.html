@@ -55,11 +55,10 @@ h2{font-family:var(--display);font-weight:700;font-size:clamp(22px,4vw,30px);mar
 .card:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--cobalt) 55%,var(--line));box-shadow:0 20px 44px -22px rgba(47,107,255,.55)}
 .card button.photo{all:unset;cursor:pointer;display:block;position:relative}
 /* Marco de foto: todas en 4:5. Las que no entran se muestran completas sobre un fondo desenfocado */
-.frame{position:relative;display:block;aspect-ratio:4/5;overflow:hidden;background:#0b0f1f}
+.frame{position:relative;display:block;aspect-ratio:1/1;overflow:hidden;background:#0b0f1f}
 .frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
-.frame.fit::before{content:"";position:absolute;inset:-12%;background:var(--bg) center/cover no-repeat;filter:blur(22px) brightness(.5) saturate(1.1)}
-.frame.fit img{object-fit:contain;padding:7%;filter:drop-shadow(0 14px 22px rgba(0,0,0,.55))}
-.frame.fit.wide img{padding:2%}
+.frame.fit::before{content:"";position:absolute;inset:-12%;background:var(--bg) center/cover no-repeat;filter:blur(26px) brightness(.75) saturate(1.15)}
+.frame.fit img{object-fit:contain;filter:drop-shadow(0 14px 22px rgba(0,0,0,.55))}
 .frame::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.32))}
 .card:hover .frame img{transform:scale(1.05)}
 .badge{position:absolute;left:10px;top:10px;z-index:1;background:rgba(7,11,26,.82);color:var(--ice);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:5px 10px;border-radius:999px}
@@ -84,14 +83,25 @@ footer strong{color:var(--silver);font-family:var(--display);font-weight:700}
 dialog{border:0;padding:0;background:transparent;max-width:min(96vw,1100px);max-height:92vh}
 dialog::backdrop{background:rgba(3,5,12,.88)}
 @media (prefers-reduced-motion:reduce){.frame img,.card{transition:none}.card:hover{transform:none}}
+.ask .s{display:none}
 @media (max-width:600px){
   .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-  .info{padding:10px 11px 12px}
-  .info h3{font-size:14px}
-  .info p{font-size:12.5px}
-  .row{flex-direction:column;align-items:stretch;gap:8px;padding-top:8px}
-  .row .ask{text-align:center;padding:8px 10px}
+  .card{border-radius:14px}
+  .info{padding:10px 11px 12px;gap:2px}
+  .info h3{font-size:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .info p{display:none}
+  .price{font-size:15px}
+  .row{flex-direction:column;align-items:stretch;gap:8px;padding-top:6px}
+  .row .ask{text-align:center;padding:9px 8px;font-size:14px;white-space:nowrap}
+  .ask .l{display:none}
+  .ask .s{display:inline}
+  .badge{font-size:10px;padding:4px 8px;left:8px;top:8px}
+  .fab{padding:12px 16px;font-size:14px}
+  .fab.wa{width:56px;height:56px;padding:0;justify-content:center;font-size:0}
+  .fab.wa svg{display:block}
 }
+.fab.wa svg{display:none;width:28px;height:28px}
+@media (max-width:600px){.fab.wa svg{display:block}}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:20;background:var(--silver);color:var(--ink);font-weight:600;font-size:14px;padding:12px 18px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.4);max-width:calc(100% - 32px);text-align:center}
 .wa{background:#25d366;border-color:#25d366;color:#04140a;font-weight:700;text-decoration:none}
 .wa:hover,.wa:focus-visible{background:#3ee07a}
@@ -196,7 +206,7 @@ button.ask{font-family:var(--body);cursor:pointer}
 </footer>
 
 <button type="button" class="fab cart" id="fab-cart" hidden aria-haspopup="dialog">Tu pedido <span class="n" id="fab-n">0</span><span id="fab-t"></span></button>
-<a class="fab wa" id="fab-wa" href="https://wa.me/5493834024275?text=Hola!%20Quiero%20info%20de%20solofachas%20%F0%9F%8C%80" target="_blank" rel="noopener">WhatsApp</a>
+<a class="fab wa" id="fab-wa" href="https://wa.me/5493834024275?text=Hola!%20Quiero%20info%20de%20solofachas%20%F0%9F%8C%80" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.2c0-.1-.2-.2-.4-.3Z"/></svg>WhatsApp</a>
 <dialog id="cart" aria-labelledby="cart-title"><div class="cart-box">
   <div class="cart-head"><h2 id="cart-title">Tu pedido</h2><button type="button" class="cart-x" id="cart-x" aria-label="Cerrar">×</button></div>
   <ul class="cart-list" id="cart-list"></ul>
@@ -257,6 +267,8 @@ const MODELS={
  "aros-set6.jpg":["Bolitas doradas","Brillantes","Florcitas","Argollitas","Trébol rojo","Perlas colgantes"]
 };
 const OTRO="Otro (lo aclaro en el chat)";
+// Qué parte de la foto mostrar en la miniatura cuadrada (la foto completa se ve en la ficha)
+const FOCUS={"58483.jpg":"50% 12%","58383.jpg":"50% 70%","58475.jpg":"50% 30%"};
 const CATS=[
  {id:"relojes",name:"Relojes",items:[
   {img:"set-rosa.jpg",t:"Set reloj + pulsera rosa",p:"$15.000",d:"Reloj dorado con brillitos y pulsera a juego con piedras rosas. Vienen juntos.",tall:1,
@@ -345,19 +357,18 @@ CATS.forEach(c=>{
     const mods=MODELS[it.img];
     const a=document.createElement("article");a.className="card";
     a.innerHTML=`<button class="photo" type="button" aria-label="Ver detalles: ${it.t}"><span class="frame"><img src="${src(it.img)}" alt="${it.t}" loading="lazy"></span>${mods?`<span class="badge">${mods.length} modelos</span>`:""}</button>
-    <div class="info"><h3><button type="button">${it.t}</button></h3><p>${it.d}</p><div class="row"><span class="price">${it.p||"Consultá precio"}</span><button type="button" class="ask want">${mods?"Elegir modelo":"Agregar al pedido"}</button></div></div>`;
+    <div class="info"><h3><button type="button">${it.t}</button></h3><p>${it.d}</p><div class="row"><span class="price">${it.p||"Consultá precio"}</span><button type="button" class="ask want">${mods?`<span class="l">Elegir modelo</span><span class="s">Elegir modelo</span>`:`<span class="l">Agregar al pedido</span><span class="s">+ Agregar</span>`}</button></div></div>`;
     const frame=a.querySelector(".frame"),img=frame.querySelector("img");
     frame.style.setProperty("--bg",`url("${src(it.img)}")`);
-    const fit=()=>{const r=img.naturalWidth/img.naturalHeight;if(r>1||r<.66)frame.classList.add("fit");if(r>1.6)frame.classList.add("wide")};
-    if(img.complete&&img.naturalWidth)fit();else img.addEventListener("load",fit);
+    if(FOCUS[it.img])img.style.objectPosition=FOCUS[it.img];
     a.querySelector(".photo").addEventListener("click",()=>openQV(it,c.name));
     a.querySelector("h3 button").addEventListener("click",()=>openQV(it,c.name));
     const want=a.querySelector(".want");
     want.addEventListener("click",()=>{
       if(mods){openQV(it,c.name);return}
       addToCart(it,null);
-      want.textContent="¡Agregado! ✓";want.classList.add("added");
-      setTimeout(()=>{want.textContent="Agregar al pedido";want.classList.remove("added")},1600);
+      const prev=want.innerHTML;want.textContent="¡Agregado! ✓";want.classList.add("added");
+      setTimeout(()=>{want.innerHTML=prev;want.classList.remove("added")},1600);
     });
     g.append(a);
   });
