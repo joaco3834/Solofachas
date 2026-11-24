@@ -67,6 +67,24 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   .car-item{width:96px;margin:-56px 0 0 -48px}
   .car-cap b{font-size:17px}
 }
+@media (max-width:380px){
+  .car{height:236px}
+  .car-item{width:80px;margin:-48px 0 0 -40px}
+  .car-cap{min-width:0}
+  .car-cap b{font-size:16px}
+  .car-ui{gap:10px}
+  .car-btn{width:38px;height:38px}
+  .hero{padding-block:30px 14px}
+  .tag{font-size:16px}
+  .grid{gap:10px}
+  .info{padding:9px 9px 11px}
+  .info h3{font-size:13px}
+  .price{font-size:14px}
+  .row .ask{font-size:13px;padding:8px 6px}
+  .logo-word{font-size:14px}
+  .logo-mark{width:26px;height:26px}
+  .badge{font-size:9px;letter-spacing:.06em}
+}
 @media (prefers-reduced-motion:reduce){.car-floor i+i{animation:none}}
 /* ===== Neofuturismo ===== */
 @property --ang{syntax:"<angle>";initial-value:0deg;inherits:false}
@@ -149,7 +167,11 @@ section.seen .sec-head::after{transform:scaleX(1)}
 .top-cta svg{width:18px;height:18px}
 @media (max-width:760px){.top-links,.top-cta{display:none}.logo-word{font-size:16px}.topbar-in{height:56px}}
 /* Encabezado */
-.hero{padding-block:44px 22px;position:relative}
+.hero{padding-block:44px 22px;position:relative;overflow:hidden}
+/* Ningún adorno puede ensanchar la página hacia los costados (celulares chicos, navegador de Instagram) */
+html{overflow-x:hidden}
+@supports (overflow:clip){html{overflow-x:clip}}
+.cats{overflow:hidden}
 /* Categorías con íconos 3D */
 .cats{padding-block:4px 22px}
 .cats-grid{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px}
@@ -737,7 +759,8 @@ qv.addEventListener("click",e=>{if(e.target===qv)qv.close()});
   const cap=document.getElementById("car-cap"),reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
   const AUTO=reduce?0:.11;               // grados por cuadro (una vuelta cada ~55 s)
   let angle=0,vel=AUTO,target=null,dragging=false,down=null,lastX=0,lastT=0,idleUntil=0,front=-1,run=true,raf=0;
-  const radius=()=>car.clientWidth<600?Math.min(150,car.clientWidth*.4):Math.min(380,car.clientWidth*.34);
+  // radio según el ancho disponible: los íconos de los costados siempre quedan dentro de la pantalla
+  const radius=()=>{const w=car.clientWidth,iw=items[0].offsetWidth;return Math.max(60,Math.min(w<600?150:380,w<600?(w-iw)/2-4:w*.34))};
   function render(){
     const R=radius();
     let best=0,bestCos=-2;
