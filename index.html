@@ -374,6 +374,8 @@ button.ask{font-family:var(--body);cursor:pointer}
 .cart-actions a,.cart-actions button.go{display:block;text-align:center;padding:14px;border-radius:12px;font:700 16px var(--body);text-decoration:none;border:0;cursor:pointer}
 .cart-actions .go-ig{background:var(--cobalt);color:#fff}
 .cart-actions .clear{background:transparent;border:0;color:var(--muted);font:600 14px var(--body);padding:8px;cursor:pointer}
+.badge.nuevo{top:auto;bottom:10px;left:10px;background:linear-gradient(135deg,#2f6bff,#5fb4ff);color:#fff;border-color:transparent;box-shadow:0 0 14px rgba(47,107,255,.6)}
+@media (max-width:420px){.badge.nuevo{bottom:8px;left:8px}}
 </style>
 
 <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -474,6 +476,8 @@ const CROPPED=new Set(["58319.jpg","58322.jpg","58324.jpg","58325.jpg","58422.jp
 const src=f=>(CROPPED.has(f)?"img2/":"img/")+f;
 // Modelos que se pueden elegir en las fotos con varios productos
 const MODELS={
+ "collares-destellos.jpg":["Tres destellos","Destello grande"],
+ "collares-estrellas.jpg":["Estrella con espiral","Estrella doble","Estrella grabada"],
  "anillos-rosa-brillo.jpg":["Moño","Corazón","Mariposa","Corazón con borde"],
  "anillos-corazones-rosa.jpg":["Corazones en fila","Doble con piedritas","Corazón chiquito","Corazón con alas"],
  "anillos-rosa-4.jpg":["Estrellita","Corazón con moños","Corazón y piedras verdes","Corazón grande"],
@@ -511,9 +515,9 @@ const FOCUS={"58383.jpg":"50% 70%","58475.jpg":"50% 30%"};
 const THUMB={"58483.jpg":"img2/58483-a.jpg","anillos-rosa-brillo.jpg":"img2/anillos-rosa-brillo-a.jpg","anillos-corazones-rosa.jpg":"img2/anillos-corazones-rosa-a.jpg","anillos-rosa-4.jpg":"img2/anillos-rosa-4-a.jpg","anillos-rosa-mix.jpg":"img2/anillos-rosa-mix-a.jpg","anillos-blanco-rosa.jpg":"img2/anillos-blanco-rosa-a.jpg","anillos-dorados-perlas.jpg":"img2/anillos-dorados-perlas-a.jpg","anillos-alas.jpg":"img2/anillos-alas-a.jpg","anillos-plata-4.jpg":"img2/anillos-plata-4-a.jpg","anillos-plata-3.jpg":"img2/anillos-plata-3-a.jpg","anillos-plata-texturas.jpg":"img2/anillos-plata-texturas-a.jpg"};
 const CATS=[
  {id:"relojes",name:"Relojes",items:[
-  {img:"reloj-strass-negro.jpg",t:"Reloj plateado con strass",d:"Esfera negra texturizada y bisel con brillitos. Malla metálica.",tall:1,
+  {img:"reloj-strass-negro.jpg",nuevo:1,t:"Reloj plateado con strass",p:"$15.000",d:"Esfera negra texturizada y bisel con brillitos. Malla metálica.",tall:1,
    f:["Malla metálica plateada","Bisel con strass","Funciona a pila"]},
-  {img:"reloj-esclava-strass.jpg",t:"Reloj esclava con strass",d:"Esfera gris con agujas azules y bisel con brillitos. Malla rígida tipo pulsera.",tall:1,
+  {img:"reloj-esclava-strass.jpg",nuevo:1,t:"Reloj esclava con strass",p:"$15.000",d:"Esfera gris con agujas azules y bisel con brillitos. Malla rígida tipo pulsera.",tall:1,
    f:["Malla rígida plateada","Bisel y laterales con strass","Funciona a pila"]},
   {img:"set-rosa.jpg",t:"Set reloj + pulsera rosa",p:"$15.000",d:"Reloj dorado con brillitos y pulsera a juego con piedras rosas. Vienen juntos.",tall:1,
    f:["Malla dorada con piedras rosas","Bisel con strass","Ideal para regalar"]},
@@ -545,16 +549,16 @@ const CATS=[
    f:["Filtro categoría 3: para sol fuerte","Lente oscuro gris","Marco plateado mate, liviano","Marcado CE de conformidad"]}
  ]},
  {id:"anillos",name:"Anillos",note:"$4.000 cada uno",items:[
-  {img:"anillos-rosa-brillo.jpg",t:"Anillos rosa con brillo",p:"$4.000 c/u",d:"Moño, corazón, mariposa y corazón con borde.",tall:1,f:["Piedras facetadas rosa","Acabado plateado","Ideal para regalar"]},
-  {img:"anillos-corazones-rosa.jpg",t:"Anillos de corazones rosa",p:"$4.000 c/u",d:"Corazones en fila, doble con piedritas, corazón chiquito y corazón con alas.",tall:1,f:["Piedras rosa","Acabado plateado","Lindos para combinar"]},
-  {img:"anillos-rosa-4.jpg",t:"Anillos rosa y cristal",p:"$4.000 c/u",d:"Estrellita, corazón con moños, corazón con piedras verdes y corazón grande.",tall:1,f:["Piedras rosa y cristales","Acabado plateado","Ideal para regalar"]},
-  {img:"anillos-rosa-mix.jpg",t:"Anillos dobles con piedras",p:"$4.000 c/u",d:"Corazón con perla, moños rosa y modelo con piedras de colores.",tall:1,f:["Diseño doble","Abiertos y ajustables","Piedras de color"]},
-  {img:"anillos-blanco-rosa.jpg",t:"Anillos blancos y rosa",p:"$4.000 c/u",d:"Esmaltado blanco con mariposas, corazón rosa y corazón blanco.",tall:1,f:["Acabado plateado","Detalles esmaltados","Delicados"]},
-  {img:"anillos-dorados-perlas.jpg",t:"Anillos dorados con perlas",p:"$4.000 c/u",d:"Perlitas y cristales, doble con perla y cruz de cristales.",tall:1,f:["Baño dorado","Perlas sintéticas y cristales","Finitos, para combinar"]},
-  {img:"anillos-alas.jpg",t:"Anillos alas",p:"$4.000 c/u",d:"Alas de murciélago, grabado y alas de ángel.",tall:1,f:["Acabado plateado","Abiertos y ajustables","Para hombre y mujer"]},
-  {img:"anillos-plata-4.jpg",t:"Anillos plateados texturados",p:"$4.000 c/u",d:"Martillado, cruzado, pluma y grabado.",tall:1,f:["Acabado plateado","Abiertos y ajustables","Para hombre y mujer"]},
-  {img:"anillos-plata-3.jpg",t:"Anillos plateados con relieve",p:"$4.000 c/u",d:"Doble con ondas, panal y liso con detalle.",tall:1,f:["Acabado plateado","Diseños en relieve","Para hombre y mujer"]},
-  {img:"anillos-plata-texturas.jpg",t:"Anillos plateados de líneas",p:"$4.000 c/u",d:"Pluma, liso, de líneas y cruzado.",tall:1,f:["Acabado plateado","Abiertos y ajustables","Estilo urbano"]},
+  {img:"anillos-rosa-brillo.jpg",nuevo:1,t:"Anillos rosa con brillo",p:"$4.000 c/u",d:"Moño, corazón, mariposa y corazón con borde.",tall:1,f:["Piedras facetadas rosa","Acabado plateado","Ideal para regalar"]},
+  {img:"anillos-corazones-rosa.jpg",nuevo:1,t:"Anillos de corazones rosa",p:"$4.000 c/u",d:"Corazones en fila, doble con piedritas, corazón chiquito y corazón con alas.",tall:1,f:["Piedras rosa","Acabado plateado","Lindos para combinar"]},
+  {img:"anillos-rosa-4.jpg",nuevo:1,t:"Anillos rosa y cristal",p:"$4.000 c/u",d:"Estrellita, corazón con moños, corazón con piedras verdes y corazón grande.",tall:1,f:["Piedras rosa y cristales","Acabado plateado","Ideal para regalar"]},
+  {img:"anillos-rosa-mix.jpg",nuevo:1,t:"Anillos dobles con piedras",p:"$4.000 c/u",d:"Corazón con perla, moños rosa y modelo con piedras de colores.",tall:1,f:["Diseño doble","Abiertos y ajustables","Piedras de color"]},
+  {img:"anillos-blanco-rosa.jpg",nuevo:1,t:"Anillos blancos y rosa",p:"$4.000 c/u",d:"Esmaltado blanco con mariposas, corazón rosa y corazón blanco.",tall:1,f:["Acabado plateado","Detalles esmaltados","Delicados"]},
+  {img:"anillos-dorados-perlas.jpg",nuevo:1,t:"Anillos dorados con perlas",p:"$4.000 c/u",d:"Perlitas y cristales, doble con perla y cruz de cristales.",tall:1,f:["Baño dorado","Perlas sintéticas y cristales","Finitos, para combinar"]},
+  {img:"anillos-alas.jpg",nuevo:1,t:"Anillos alas",p:"$4.000 c/u",d:"Alas de murciélago, grabado y alas de ángel.",tall:1,f:["Acabado plateado","Abiertos y ajustables","Para hombre y mujer"]},
+  {img:"anillos-plata-4.jpg",nuevo:1,t:"Anillos plateados texturados",p:"$4.000 c/u",d:"Martillado, cruzado, pluma y grabado.",tall:1,f:["Acabado plateado","Abiertos y ajustables","Para hombre y mujer"]},
+  {img:"anillos-plata-3.jpg",nuevo:1,t:"Anillos plateados con relieve",p:"$4.000 c/u",d:"Doble con ondas, panal y liso con detalle.",tall:1,f:["Acabado plateado","Diseños en relieve","Para hombre y mujer"]},
+  {img:"anillos-plata-texturas.jpg",nuevo:1,t:"Anillos plateados de líneas",p:"$4.000 c/u",d:"Pluma, liso, de líneas y cruzado.",tall:1,f:["Acabado plateado","Abiertos y ajustables","Estilo urbano"]},
   {img:"58319.jpg",t:"Anillos con cristales rosa",p:"$4.000 c/u",d:"Corazones, moños y mariposa con piedras rosa.",f:["La mayoría abiertos y ajustables","Piedras facetadas rosa","Ideal para regalar"]},
   {img:"58325.jpg",t:"Anillos plateados con detalle",p:"$4.000 c/u",d:"Rosa roja, águila, corazón «Love», alas y búho de ojos celestes.",f:["Acabado plateado envejecido","Diseños en relieve","Varios abiertos y ajustables"]},
   {img:"58322.jpg",t:"Anillos rockeros",p:"$4.000 c/u",d:"Telaraña, araña, ataúd, esqueleto y carta.",f:["Acabado plateado envejecido","Diseños con mucho relieve","Para hombre y mujer"]},
@@ -562,11 +566,16 @@ const CATS=[
   {img:"58422.jpg",t:"Anillos dorados",p:"$4.000 c/u",d:"Soles, mariposa, ondas y modelos minimalistas.",f:["Baño dorado","Abiertos y ajustables","Para usar solos o combinados"]}
  ]},
  {id:"pulseras",name:"Pulseras",items:[
-  {img:"pulseras-malla.jpg",t:"Pulseras de malla plateadas",p:"$6.000 c/u",d:"Malla tejida con dije de infinito o de mariposa con brillitos.",f:["Acabado plateado","Dije con strass","Cadena de extensión para ajustar el largo"]},
-  {img:"esclavas-corazon.jpg",t:"Pulsera rígida corazones",p:"$6.000",d:"Abierta, con un corazón con brillitos y otro liso en las puntas.",tall:1,f:["Acabado plateado","Abierta, se adapta a la muñeca","Corazón con strass"]},
-  {img:"pulsera-cuero-trenzada.jpg",t:"Pulsera negra de placas",p:"$6.000",d:"Placas símil cuero entrelazadas con detalles plateados.",tall:1,f:["Símil cuero negro","Detalles metálicos","Estilo urbano"]},
-  {img:"pulsera-cuero-cordon.jpg",t:"Pulsera de cuero y cordón",p:"$6.000",d:"Tira negra con cordones encerados.",tall:1,f:["Símil cuero negro","Cordón regulable","Para hombre y mujer"]},
-  {img:"pulsera-bolitas-negras.jpg",t:"Pulsera de bolitas negras",p:"$6.000",d:"Cuentas negras brillantes.",f:["Elástica, fácil de poner","Combina con todo","Para hombre y mujer"]},
+  {img:"pulsera-cubana-strass.jpg",nuevo:1,t:"Pulsera cubana con strass",p:"$6.000",d:"Cadena cubana gruesa toda con brillitos.",tall:1,f:["Acabado plateado","Eslabones con strass","Cierre de caja con traba"]},
+  {img:"pulseras-strass.jpg",nuevo:1,t:"Pulseras de strass",p:"$6.000 c/u",d:"Una fila de cristales, finitas y brillantes.",f:["Elásticas, fáciles de poner","Cristales engarzados","Lindas para usar de a varias"]},
+  {img:"pulsera-cuero-multi.jpg",nuevo:1,t:"Pulsera de cuero multivuelta",p:"$6.000",d:"Varias tiras negras, lisas y trenzadas.",tall:1,f:["Símil cuero negro","Tiras lisas y trenzadas","Estilo urbano"]},
+  {img:"pulsera-cuero-trenzado.jpg",nuevo:1,t:"Pulsera de cuero trenzado",p:"$6.000",d:"Trenzado ancho negro con cordón regulable.",tall:1,f:["Símil cuero negro","Cordón regulable","Para hombre y mujer"]},
+  {img:"pulsera-tejida.jpg",nuevo:1,t:"Pulsera tejida negra y plateada",p:"$6.000",d:"Tejido en espiga negro con brillo plateado.",tall:1,f:["Tejido símil cuero","Cordón regulable","Estilo urbano"]},
+  {img:"pulseras-malla.jpg",nuevo:1,t:"Pulseras de malla plateadas",p:"$6.000 c/u",d:"Malla tejida con dije de infinito o de mariposa con brillitos.",f:["Acabado plateado","Dije con strass","Cadena de extensión para ajustar el largo"]},
+  {img:"esclavas-corazon.jpg",nuevo:1,t:"Pulsera rígida corazones",p:"$6.000",d:"Abierta, con un corazón con brillitos y otro liso en las puntas.",tall:1,f:["Acabado plateado","Abierta, se adapta a la muñeca","Corazón con strass"]},
+  {img:"pulsera-cuero-trenzada.jpg",nuevo:1,t:"Pulsera negra de placas",p:"$6.000",d:"Placas símil cuero entrelazadas con detalles plateados.",tall:1,f:["Símil cuero negro","Detalles metálicos","Estilo urbano"]},
+  {img:"pulsera-cuero-cordon.jpg",nuevo:1,t:"Pulsera de cuero y cordón",p:"$6.000",d:"Tira negra con cordones encerados.",tall:1,f:["Símil cuero negro","Cordón regulable","Para hombre y mujer"]},
+  {img:"pulsera-bolitas-negras.jpg",nuevo:1,t:"Pulsera de bolitas negras",p:"$6.000",d:"Cuentas negras brillantes.",f:["Elástica, fácil de poner","Combina con todo","Para hombre y mujer"]},
   {img:"pulseras-cristal.jpg",t:"Pulseras de cristal",p:"$6.000 c/u",d:"Rosa con dije de hojitas o celeste con florcita.",tall:1,
    f:["Cuentas de cristal","Elásticas, fáciles de poner","Dijes colgantes"]},
   {img:"pulseras-perlas.jpg",t:"Pulseras de perlas y cadena",p:"$6.000 c/u",d:"Perlas con broche T, perlas con dijes, eslabones grandes y tipo serpiente.",tall:1,
@@ -577,12 +586,22 @@ const CATS=[
   {img:"58494.jpg",t:"Pulseras de cadena plateadas",p:"$6.000 c/u",d:"Eslabones de distintos grosores.",tall:1,f:["Acabado plateado","Cierre mosquetón","Estilo urbano, para hombre y mujer"]}
  ]},
  {id:"collares",name:"Collares",items:[
-  {img:"collar-corazon-rosa.jpg",t:"Collar corazón rosa",p:"$8.000",d:"Corazón rosa facetado rodeado de brillitos.",tall:1,f:["Cadena plateada","Contorno con strass","Ideal para regalar"]},
-  {img:"collar-mono-rosa.jpg",t:"Collar moño rosa",p:"$8.000",d:"Moño con corazones rosa, brillitos y dijes de estrella.",tall:1,f:["Cadena plateada","Piedras rosa y strass","Dijes colgantes"]},
-  {img:"collar-mono.jpg",t:"Collar moño con brillitos",p:"$8.000",d:"Moño con strass y piedrita colgante.",tall:1,f:["Cadena plateada","Moño con strass","Piedra de cristal colgante"]},
-  {img:"collar-corazon-azul.jpg",t:"Collar corazón azul",p:"$8.000",d:"Corazón plateado con piedra azul.",tall:1,f:["Cadena fina plateada","Piedra azul facetada","Delicado"]},
-  {img:"collar-mariposa.jpg",t:"Collar mariposa",p:"$8.000",d:"Mariposa calada con brillitos.",tall:1,f:["Cadena plateada","Dije con strass","Delicado"]},
-  {img:"collar-san-miguel.jpg",t:"Collar medalla San Miguel",p:"$8.000",d:"Medalla ovalada de San Miguel Arcángel.",tall:1,f:["Cadena plateada","Cadena de extensión para ajustar el largo","Para hombre y mujer"]},
+  {img:"set-corazon-cristal.jpg",nuevo:1,t:"Set collar + aros corazón",p:"$10.000",d:"Collar dorado con corazón de cristal y aros a juego. Vienen juntos.",tall:1,f:["Cadena dorada tipo veneciana","Corazón de cristal facetado","Ideal para regalar"]},
+  {img:"collares-destellos.jpg",nuevo:1,t:"Collares destello",p:"$8.000 c/u",d:"Dije de tres destellos o destello grande.",tall:1,f:["Acabado plateado","Cadena tipo veneciana","Para hombre y mujer"]},
+  {img:"collares-estrellas.jpg",nuevo:1,t:"Collares estrella",p:"$8.000 c/u",d:"Estrella con espiral, estrella doble calada y estrella grabada.",tall:1,f:["Acabado plateado","Cadena tipo veneciana","Para hombre y mujer"]},
+  {img:"collar-sol.jpg",nuevo:1,t:"Collar sol",p:"$8.000",d:"Dije de sol calado.",tall:1,f:["Acabado plateado","Cadena tipo veneciana","Para hombre y mujer"]},
+  {img:"collar-rosa.jpg",nuevo:1,t:"Collar rosa",p:"$8.000",d:"Dije de rosa con tallo y cadena fina.",tall:1,f:["Acabado plateado","Cadena de extensión para ajustar el largo","Cierre mosquetón"]},
+  {img:"collar-placa-mariposa.jpg",nuevo:1,t:"Collar placa mariposa",p:"$8.000",d:"Placa rectangular con mariposa en relieve.",tall:1,f:["Acabado plateado","Cadena barbada fina","Diseño en relieve"]},
+  {img:"collar-placa-brillo.jpg",nuevo:1,t:"Collar placa con brillito",p:"$8.000",d:"Plaquita rectangular con estrellita de cristal.",tall:1,f:["Acabado plateado","Cadena fina","Minimalista"]},
+  {img:"cadena-barbada.jpg",nuevo:1,t:"Cadena barbada",p:"$8.000",d:"Eslabones planos que brillan con la luz.",tall:1,f:["Acabado plateado","Cadena de extensión para ajustar el largo","Para hombre y mujer"]},
+  {img:"cadena-barbada-larga.jpg",nuevo:1,t:"Cadena barbada larga",p:"$8.000",d:"Eslabones planos, más larga.",tall:1,f:["Acabado plateado","Cierre mosquetón","Para hombre y mujer"]},
+  {img:"cadena-espiral.jpg",nuevo:1,t:"Cadena eslabones espiral",p:"$8.000",d:"Eslabones en forma de espiral.",tall:1,f:["Acabado plateado","Cadena de extensión para ajustar el largo","Para usar sola o con dije"]},
+  {img:"collar-corazon-rosa.jpg",nuevo:1,t:"Collar corazón rosa",p:"$8.000",d:"Corazón rosa facetado rodeado de brillitos.",tall:1,f:["Cadena plateada","Contorno con strass","Ideal para regalar"]},
+  {img:"collar-mono-rosa.jpg",nuevo:1,t:"Collar moño rosa",p:"$8.000",d:"Moño con corazones rosa, brillitos y dijes de estrella.",tall:1,f:["Cadena plateada","Piedras rosa y strass","Dijes colgantes"]},
+  {img:"collar-mono.jpg",nuevo:1,t:"Collar moño con brillitos",p:"$8.000",d:"Moño con strass y piedrita colgante.",tall:1,f:["Cadena plateada","Moño con strass","Piedra de cristal colgante"]},
+  {img:"collar-corazon-azul.jpg",nuevo:1,t:"Collar corazón azul",p:"$8.000",d:"Corazón plateado con piedra azul.",tall:1,f:["Cadena fina plateada","Piedra azul facetada","Delicado"]},
+  {img:"collar-mariposa.jpg",nuevo:1,t:"Collar mariposa",p:"$8.000",d:"Mariposa calada con brillitos.",tall:1,f:["Cadena plateada","Dije con strass","Delicado"]},
+  {img:"collar-san-miguel.jpg",nuevo:1,t:"Collar medalla San Miguel",p:"$8.000",d:"Medalla ovalada de San Miguel Arcángel.",tall:1,f:["Cadena plateada","Cadena de extensión para ajustar el largo","Para hombre y mujer"]},
   {img:"collar-celta.jpg",t:"Collar nudo celta",p:"$8.000",d:"Cadena plateada con dije calado, piedrita verde y gota de cristal.",tall:1,
    f:["Acabado plateado","Piedrita verde al centro","Gota de cristal colgante"]},
   {img:"58507.jpg",t:"Collares dorados con dije",p:"$8.000 c/u",d:"Aros entrelazados y mariposa con brillitos.",tall:1,f:["Cadena fina con baño dorado","Cadena de extensión para ajustar el largo","Cierre mosquetón"]},
@@ -607,8 +626,8 @@ const CATS=[
    f:["Baño dorado","Con brillos y perlas","Elegí los pares que quieras"]}
  ]},
  {id:"cintos",name:"Cintos",items:[
-  {img:"cinto-geometrico.jpg",t:"Cinto hebilla geométrica",p:"$10.000",d:"Negro con hebilla automática de diseño geométrico.",tall:1,f:["Símil cuero negro","Hebilla automática, sin agujeros","Para vestir o de diario"]},
-  {img:"cinto-hebilla-curva.jpg",t:"Cinto hebilla plateada",p:"$10.000",d:"Negro con hebilla automática plateada de líneas curvas.",tall:1,f:["Símil cuero negro","Hebilla automática, sin agujeros","Para vestir o de diario"]},
+  {img:"cinto-geometrico.jpg",nuevo:1,t:"Cinto hebilla geométrica",p:"$10.000",d:"Negro con hebilla automática de diseño geométrico.",tall:1,f:["Símil cuero negro","Hebilla automática, sin agujeros","Para vestir o de diario"]},
+  {img:"cinto-hebilla-curva.jpg",nuevo:1,t:"Cinto hebilla plateada",p:"$10.000",d:"Negro con hebilla automática plateada de líneas curvas.",tall:1,f:["Símil cuero negro","Hebilla automática, sin agujeros","Para vestir o de diario"]},
   {img:"58320.jpg",oculto:1,t:"Cinto Hello Kitty",p:"$10.000",d:"Negro con hebilla plateada de Hello Kitty y moño de brillos.",f:["Símil cuero negro","Hebilla grande de metal","Moño con strass rosa"]}
  ]}
 ];
@@ -644,7 +663,7 @@ CATS.forEach(c=>{
   c.items.forEach(it=>{
     const mods=MODELS[it.img];
     const a=document.createElement("article");a.className="card";
-    a.innerHTML=`<button class="photo" type="button" aria-label="Ver detalles: ${it.t}"><span class="frame"><img src="${THUMB[it.img]||src(it.img)}" alt="${it.t}" loading="lazy"></span><span class="sweep" aria-hidden="true"></span>${mods?`<span class="badge">${mods.length} modelos</span>`:""}</button>
+    a.innerHTML=`<button class="photo" type="button" aria-label="Ver detalles: ${it.t}"><span class="frame"><img src="${THUMB[it.img]||src(it.img)}" alt="${it.t}" loading="lazy"></span><span class="sweep" aria-hidden="true"></span>${mods?`<span class="badge">${mods.length} modelos</span>`:""}${it.nuevo?`<span class="badge nuevo">Nuevo ingreso</span>`:""}</button>
     <div class="info"><h3><button type="button">${it.t}</button></h3><p>${it.d}</p><div class="row"><span class="price">${it.p||"Consultá precio"}</span><button type="button" class="ask want">${mods?`<span class="l">Elegir modelo</span><span class="s">Elegir modelo</span>`:`<span class="l">Agregar al pedido</span><span class="s">+ Agregar</span>`}</button></div></div>`;
     const frame=a.querySelector(".frame"),img=frame.querySelector("img");
     frame.style.setProperty("--bg",`url("${THUMB[it.img]||src(it.img)}")`);
